@@ -1,13 +1,13 @@
 # Eventus Plus
 
-Sistema web para gerenciamento de eventos academicos ficticios, com inscricao,
-check-in, certificados ficticios e logs de auditoria.
+Sistema web para gerenciamento de eventos acadêmicos fictícios, com inscrição,
+check-in, certificados fictícios e logs de auditoria.
 
 ## Projeto
 
-- Codigo do projeto: `P09-A`
-- Tema: `Eventos: inscricao e presenca`
-- Repositorio: `https://github.com/CodeMonkeysCorp/eventus-plus`
+- Código do projeto: `P09-A`
+- Tema: `Eventos: inscrição e presença`
+- Repositório: `https://github.com/CodeMonkeysCorp/eventus-plus`
 
 ## Integrantes
 
@@ -16,43 +16,43 @@ check-in, certificados ficticios e logs de auditoria.
 - Andre Schultz
 - Lucas Monich Nunes
 
-## Stack prevista
+## Stack Prevista
 
 - Frontend: Angular
 - Backend: Spring Boot com Java 17
 - Banco de dados: MySQL
-- Controle de versao: GitHub
-- Seguranca: autenticacao com login e senha, hash de senha, autorizacao por
-  perfil, validacao no back-end, protecao de variaveis de ambiente e logs de
+- Controle de versão: GitHub
+- Segurança: autenticação com login e senha, hash de senha, autorização por
+  perfil, validação no back-end, proteção de variáveis de ambiente e logs de
   auditoria
 
-## Perfis de usuario
+## Perfis de Usuário
 
-- Participante: cria conta, visualiza eventos, realiza inscricoes, consulta as
-  proprias inscricoes, verifica presenca e acessa certificados ficticios quando
-  aplicavel
-- Operador: acompanha inscricoes, realiza check-in, valida presenca e atualiza
-  status de participacao em eventos
-- Administrador: gerencia eventos, usuarios, perfis, inscricoes, relatorios e
+- Participante: cria conta, visualiza eventos, realiza inscrições, consulta as
+  próprias inscrições, verifica presença e acessa certificados fictícios quando
+  aplicável
+- Operador: acompanha inscrições, realiza check-in, valida presença e atualiza
+  status de participação em eventos
+- Administrador: gerencia eventos, usuários, perfis, inscrições, relatórios e
   logs de auditoria
 
-## Funcionalidades minimas previstas
+## Funcionalidades Mínimas Previstas
 
-- Cadastro e autenticacao de usuarios
+- Cadastro e autenticação de usuários
 - Controle de acesso por perfil
 - CRUD de eventos
-- Inscricao de participantes em eventos
-- Consulta das proprias inscricoes pelo participante
-- Check-in de presenca por operador ou administrador
-- Registro de certificado ficticio para participantes presentes
-- Consulta administrativa de inscricoes e presencas
-- Geracao de relatorios de eventos, inscricoes e presenca
-- Logs de auditoria para login, criacao e edicao de eventos, inscricao,
-  check-in, acoes administrativas e tentativas de acesso negado
-- Validacao dos dados no back-end
-- Uso de `.env.example` e protecao de credenciais fora do GitHub
+- Inscrição de participantes em eventos
+- Consulta das próprias inscrições pelo participante
+- Check-in de presença por operador ou administrador
+- Registro de certificado fictício para participantes presentes
+- Consulta administrativa de inscrições e presenças
+- Geração de relatórios de eventos, inscrições e presença
+- Logs de auditoria para login, criação e edição de eventos, inscrição,
+  check-in, ações administrativas e tentativas de acesso negado
+- Validação dos dados no back-end
+- Uso de `.env.example` e proteção de credenciais fora do GitHub
 
-## Estrutura inicial
+## Estrutura Inicial
 
 ```text
 backend/
@@ -92,9 +92,39 @@ docs/
 scripts/
 ```
 
-## Proximos passos
+## Docker Local
 
-1. Inicializar o Angular dentro de `frontend`.
-2. Inicializar o Spring Boot dentro de `backend`.
-3. Definir matriz de permissoes, entidades e endpoints.
-4. Usar `docs/` para checkpoints, evidencias e relatorio tecnico.
+O projeto agora possui o mesmo setup Docker do `Reserva-plus`, com:
+
+- `compose.yaml` para desenvolvimento local
+- `compose.prod.yaml` para deploy com imagens prontas
+- `run-local.ps1` e `stop-local.ps1` para subir e derrubar a stack no Windows
+- `scripts/init-prod-env.{ps1,sh}` para gerar `.env.prod`
+- `scripts/deploy-prod.{ps1,sh}` para subir a stack de produção
+
+### Comandos principais
+
+```powershell
+.\run-local.ps1
+.\run-local.ps1 -Build
+.\run-local.ps1 -BackendOnly
+.\run-local.ps1 -DatabaseOnly
+.\stop-local.ps1
+```
+
+No desenvolvimento local, o `eventus-plus` possui seu próprio MySQL no
+`compose.yaml`, publicado por padrão na porta `3307`. Assim ele fica isolado
+do `reserva-plus`, que pode continuar usando a porta `3306`.
+
+## Diretriz de Texto
+
+O projeto passa a adotar **UTF-8** como padrão para arquivos de texto e
+acentuação normal em conteúdos em português. A diretriz completa está em
+[docs/diretrizes-utf8.md](docs/diretrizes-utf8.md).
+
+## Próximos Passos
+
+1. Evoluir as telas do frontend com mais refinamento de UX.
+2. Integrar frontend e backend usando os endpoints já disponíveis.
+3. Definir matriz de permissões, entidades e endpoints complementares.
+4. Usar `docs/` para checkpoints, evidências e relatório técnico.

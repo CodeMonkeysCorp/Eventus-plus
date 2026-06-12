@@ -1,0 +1,39 @@
+<div class="app-shell">
+  <header class="topbar card-panel">
+    <div class="topbar-inner">
+      <a class="brand" routerLink="/home">Eventus+</a>
+
+      <nav class="topbar-links">
+        <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Início</a>
+        <a routerLink="/eventos" routerLinkActive="active">Eventos</a>
+        <a *ngIf="isParticipant" routerLink="/minhas-inscricoes" routerLinkActive="active">Minhas inscrições</a>
+        <a *ngIf="isParticipant" routerLink="/certificados" routerLinkActive="active">Certificados</a>
+        <a *ngIf="isStaff" class="staff-link" routerLink="/painel" routerLinkActive="active">Painel</a>
+        <a *ngIf="isAdmin" class="staff-link" routerLink="/gerenciar-eventos" routerLinkActive="active">Gerenciar eventos</a>
+        <a *ngIf="isStaff" class="staff-link" routerLink="/presencas" routerLinkActive="active">Presenças</a>
+        <a *ngIf="isAdmin" class="staff-link" routerLink="/relatorios" routerLinkActive="active">Relatórios</a>
+        <a *ngIf="isAdmin" class="staff-link" routerLink="/auditoria" routerLinkActive="active">Auditoria</a>
+      </nav>
+
+      <div class="topbar-user" *ngIf="(user$ | async) as user; else guestActions">
+        <span class="user-chip">{{ roleLabel(user.role) }}</span>
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="logout()">Sair</button>
+      </div>
+
+      <ng-template #guestActions>
+        <div class="topbar-user">
+          <a routerLink="/login" class="btn btn-sm btn-outline-secondary">Entrar</a>
+          <a routerLink="/register" class="btn btn-sm btn-aurora">Criar conta</a>
+        </div>
+      </ng-template>
+    </div>
+  </header>
+
+  <main class="main-wrap">
+    <div class="container-shell">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <footer class="footer-note">Eventus+ {{ currentYear }} | CodeMonkeys Corp.</footer>
+</div>

@@ -1,0 +1,58 @@
+.section-card {
+  padding: 1.5rem;
+}
+
+.event-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  margin-top: 1rem;
+}
+
+.event-card {
+  padding: 1.1rem;
+  border-radius: 22px;
+  border: 1px solid var(--border);
+}
+
+.event-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+
+.event-card h3 {
+  margin: 0;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.event-card p,
+.event-card dd {
+  color: var(--muted);
+}
+
+.event-card dl {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1rem 0 0;
+}
+
+.event-card dt {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #867c72;
+}
+
+.event-card dd {
+  margin: 0.2rem 0 0;
+}
+
+.event-spots {
+  font-size: 0.88rem;
+  color: var(--muted);
+  font-weight: 700;
+}

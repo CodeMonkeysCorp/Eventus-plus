@@ -1,0 +1,23 @@
+<section class="section-stack">
+  <div class="hero-panel card-panel">
+    <span class="eyebrow">Certificados</span>
+    <h1 class="hero-title">Seus comprovantes fictícios liberados após a presença.</h1>
+    <p class="hero-subtitle">Cada certificado aparece quando o check-in é confirmado pela operação do evento.</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
+  <div *ngIf="loading" class="loading-copy">Carregando certificados...</div>
+
+  <div *ngIf="!loading && certificates.length === 0" class="empty-state">
+    Nenhum certificado foi liberado ainda.
+  </div>
+
+  <div *ngIf="!loading && certificates.length > 0" class="certificate-grid">
+    <article class="card-panel certificate-card" *ngFor="let certificate of certificates; trackBy: trackByCertificateId">
+      <span class="eyebrow">Emitido</span>
+      <h2>{{ certificate.eventTitle }}</h2>
+      <p>Registro da participação referente à inscrição #{{ certificate.registrationId }}.</p>
+      <strong>{{ formatDateTime(certificate.issuedAt) }}</strong>
+    </article>
+  </div>
+</section>

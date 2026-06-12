@@ -1,0 +1,70 @@
+<section class="auth-layout">
+  <div class="auth-side card-panel">
+    <span class="eyebrow">Primeiro acesso</span>
+    <h1>Crie sua conta e acompanhe seus eventos em um único lugar.</h1>
+    <p>
+      O cadastro gera uma conta de participante para inscrição em eventos,
+      consulta de presenças e acesso aos certificados liberados.
+    </p>
+  </div>
+
+  <div class="auth-card card-panel">
+    <span class="eyebrow">Cadastro</span>
+    <h2>Comece pelo perfil de participante</h2>
+    <p class="auth-copy">Depois o time administrador pode ampliar os acessos quando necessário.</p>
+
+    <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
+
+    <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
+      <div>
+        <label class="form-label" for="fullName">Nome completo</label>
+        <input id="fullName" class="form-control" type="text" formControlName="fullName" placeholder="Seu nome completo">
+      </div>
+
+      <div>
+        <label class="form-label" for="email">Email</label>
+        <input id="email" class="form-control" type="email" formControlName="email" placeholder="voce@faculdade.br">
+      </div>
+
+      <div>
+        <label class="form-label" for="password">Senha</label>
+        <div class="password-field">
+          <input
+            id="password"
+            class="form-control"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Mínimo de 8 caracteres">
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+            {{ showPassword ? 'Ocultar' : 'Mostrar' }}
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <label class="form-label" for="confirmPassword">Confirmar senha</label>
+        <div class="password-field">
+          <input
+            id="confirmPassword"
+            class="form-control"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            placeholder="Repita a senha">
+          <button type="button" class="btn btn-outline-secondary" (click)="toggleConfirmPassword()">
+            {{ showConfirmPassword ? 'Ocultar' : 'Mostrar' }}
+          </button>
+        </div>
+        <small *ngIf="passwordsMismatch" class="text-danger">As senhas precisam ser iguais.</small>
+      </div>
+
+      <button class="btn btn-aurora w-100" type="submit" [disabled]="loading">
+        {{ loading ? 'Criando conta...' : 'Criar conta' }}
+      </button>
+    </form>
+
+    <p class="auth-footnote">
+      Já possui conta?
+      <a routerLink="/login">Entrar</a>
+    </p>
+  </div>
+</section>

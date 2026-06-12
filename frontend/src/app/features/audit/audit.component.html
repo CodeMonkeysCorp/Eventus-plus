@@ -1,0 +1,49 @@
+<section class="section-stack">
+  <div class="hero-panel card-panel">
+    <span class="eyebrow">Auditoria</span>
+    <h1 class="hero-title">Rastreabilidade das ações e dos acessos no backend.</h1>
+    <p class="hero-subtitle">Consulte os registros recentes de autenticação, administração, inscrição e check-in.</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
+
+  <section class="card-panel audit-card">
+    <div class="section-heading">
+      <div>
+        <h2 class="section-title">Logs recentes</h2>
+        <p class="section-subtitle">Escolha quantos registros deseja consultar.</p>
+      </div>
+      <div class="limit-box">
+        <select class="form-select" [(ngModel)]="limit" (ngModelChange)="loadLogs()">
+          <option *ngFor="let option of limits" [ngValue]="option">{{ option }} registros</option>
+        </select>
+      </div>
+    </div>
+
+    <div *ngIf="loading" class="loading-copy">Carregando logs de auditoria...</div>
+    <div *ngIf="!loading && logs.length === 0" class="empty-state">Nenhum log encontrado.</div>
+
+    <div *ngIf="!loading && logs.length > 0" class="table-wrap">
+      <table class="table align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Momento</th>
+            <th>Ação</th>
+            <th>Ator</th>
+            <th>Alvo</th>
+            <th>Detalhes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let log of logs; trackBy: trackByLogId">
+            <td>{{ formatDateTime(log.occurredAt) }}</td>
+            <td>{{ auditActionLabel(log.action) }}</td>
+            <td>{{ log.actorEmail || '-' }}</td>
+            <td>{{ log.targetType }} {{ log.targetId || '' }}</td>
+            <td>{{ log.details || '-' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>

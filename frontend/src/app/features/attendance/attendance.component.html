@@ -1,0 +1,78 @@
+<section class="section-stack">
+  <div class="hero-panel card-panel">
+    <span class="eyebrow">Check-in</span>
+    <h1 class="hero-title">Valide a presença dos participantes no momento do evento.</h1>
+    <p class="hero-subtitle">Use a lista abaixo para localizar rapidamente a inscrição e registrar a chegada.</p>
+  </div>
+
+  <div *ngIf="successMessage" class="feedback-success">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
+  <div *ngIf="loading" class="loading-copy">Carregando inscrições administrativas...</div>
+
+  <div *ngIf="!loading" class="stats-grid">
+    <article class="stat-card">
+      <p class="stat-label">Inscrições totais</p>
+      <p class="stat-value">{{ registrations.length }}</p>
+    </article>
+    <article class="stat-card">
+      <p class="stat-label">Aguardando check-in</p>
+      <p class="stat-value">{{ pendingCount }}</p>
+    </article>
+    <article class="stat-card">
+      <p class="stat-label">Presenças confirmadas</p>
+      <p class="stat-value">{{ checkedInCount }}</p>
+    </article>
+  </div>
+
+  <section class="card-panel content-card">
+    <div class="section-heading">
+      <div>
+        <h2 class="section-title">Fila de presenças</h2>
+        <p class="section-subtitle">Filtre por nome do participante, email ou evento.</p>
+      </div>
+      <input class="form-control search-field" type="search" [(ngModel)]="query" placeholder="Buscar inscrição...">
+    </div>
+
+    <div *ngIf="filteredRegistrations.length === 0" class="empty-state">
+      Nenhuma inscrição encontrada com esse filtro.
+    </div>
+
+    <div *ngIf="filteredRegistrations.length > 0" class="table-wrap">
+      <table class="table align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Participante</th>
+            <th>Evento</th>
+            <th>Status</th>
+            <th>Inscrição</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let registration of filteredRegistrations; trackBy: trackByRegistrationId">
+            <td>
+              <strong>{{ registration.participantName }}</strong>
+              <div class="muted-line">{{ registration.participantEmail }}</div>
+            </td>
+            <td>{{ registration.eventTitle }}</td>
+            <td>
+              <span class="status-pill" [ngClass]="statusClass(registration.status)">
+                {{ registrationStatusLabel(registration.status) }}
+              </span>
+            </td>
+            <td>{{ formatDateTime(registration.registeredAt) }}</td>
+            <td class="text-end">
+              <button
+                type="button"
+                class="btn btn-sm btn-aurora"
+                [disabled]="registration.status === 'CHECKED_IN' || submittingRegistrationId === registration.id"
+                (click)="confirmCheckIn(registration)">
+                {{ registration.status === 'CHECKED_IN' ? 'Confirmado' : (submittingRegistrationId === registration.id ? 'Processando...' : 'Confirmar check-in') }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>

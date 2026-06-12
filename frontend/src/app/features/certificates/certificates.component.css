@@ -1,0 +1,19 @@
+.certificate-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.certificate-card {
+  padding: 1.4rem;
+}
+
+.certificate-card h2 {
+  margin: 0.9rem 0 0.5rem;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.certificate-card p {
+  color: var(--muted);
+}

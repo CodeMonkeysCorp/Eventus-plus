@@ -1,0 +1,30 @@
+debug: false
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:eventusplus;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+
+app:
+  jwt:
+    secret: test-secret-key-for-jwt-signing-12345
+    expiration-ms: 3600000
+  cors:
+    allowed-origins: http://localhost:4200
+  bootstrap:
+    admin-name: Admin Teste
+    admin-email: admin@test.local
+    admin-password: Admin123!
+
+logging:
+  level:
+    root: WARN
+    org.springframework: WARN
+    org.hibernate: WARN

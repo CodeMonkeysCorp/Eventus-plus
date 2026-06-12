@@ -1,0 +1,71 @@
+<section class="section-stack">
+  <div class="hero-panel card-panel">
+    <span class="eyebrow">Eventus+ em operação</span>
+    <h1 class="hero-title">{{ heroTitle }}</h1>
+    <p class="hero-subtitle">{{ heroSubtitle }}</p>
+
+    <div class="action-row mt-4">
+      <a routerLink="/eventos" class="btn btn-aurora">Explorar eventos</a>
+      <a *ngIf="!isAuthenticated" routerLink="/register" class="btn btn-sand">Criar conta</a>
+      <a *ngIf="isParticipant" routerLink="/minhas-inscricoes" class="btn btn-outline-secondary">Ver minhas inscrições</a>
+      <a *ngIf="isStaff" routerLink="/painel" class="btn btn-outline-secondary">Abrir painel</a>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
+  <div *ngIf="loading" class="loading-copy">Carregando dados iniciais...</div>
+
+  <div *ngIf="!loading" class="stats-grid">
+    <article class="stat-card">
+      <p class="stat-label">Eventos publicados</p>
+      <p class="stat-value">{{ events.length }}</p>
+    </article>
+    <article class="stat-card">
+      <p class="stat-label">Inscrições ativas</p>
+      <p class="stat-value">{{ registrations.length }}</p>
+    </article>
+    <article class="stat-card">
+      <p class="stat-label">Check-ins confirmados</p>
+      <p class="stat-value">{{ checkedInCount }}</p>
+    </article>
+    <article class="stat-card">
+      <p class="stat-label">Certificados liberados</p>
+      <p class="stat-value">{{ certificates.length }}</p>
+    </article>
+  </div>
+
+  <section class="card-panel section-card">
+    <div class="section-heading">
+      <div>
+        <h2 class="section-title">Próximos eventos em destaque</h2>
+        <p class="section-subtitle">Uma amostra do que já está aberto no sistema.</p>
+      </div>
+      <a routerLink="/eventos" class="btn btn-outline-secondary">Ver todos</a>
+    </div>
+
+    <div *ngIf="upcomingEvents.length === 0" class="empty-state">
+      Nenhum evento publicado no momento.
+    </div>
+
+    <div class="event-grid" *ngIf="upcomingEvents.length > 0">
+      <article class="event-card surface-muted" *ngFor="let event of upcomingEvents; trackBy: trackByEventId">
+        <div class="event-head">
+          <span class="status-pill" [ngClass]="statusClass(event.status)">{{ eventStatusLabel(event.status) }}</span>
+          <span class="event-spots">{{ event.availableSpots }} vagas livres</span>
+        </div>
+        <h3>{{ event.title }}</h3>
+        <p>{{ event.description || 'Evento acadêmico publicado para demonstração do fluxo completo.' }}</p>
+        <dl>
+          <div>
+            <dt>Quando</dt>
+            <dd>{{ formatDateTime(event.startsAt) }}</dd>
+          </div>
+          <div>
+            <dt>Onde</dt>
+            <dd>{{ event.location }}</dd>
+          </div>
+        </dl>
+      </article>
+    </div>
+  </section>
+</section>

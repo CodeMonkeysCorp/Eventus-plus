@@ -1,0 +1,60 @@
+<section class="section-stack">
+  <div class="hero-panel card-panel">
+    <span class="eyebrow">Minhas inscrições</span>
+    <h1 class="hero-title">Acompanhe o status de cada participação.</h1>
+    <p class="hero-subtitle">Veja o que já foi inscrito, confirmado e liberado para certificado.</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
+  <div *ngIf="loading" class="loading-copy">Carregando suas inscrições...</div>
+
+  <div *ngIf="!loading" class="stats-grid">
+    <article class="stat-card">
+      <p class="stat-label">Total de inscrições</p>
+      <p class="stat-value">{{ registrations.length }}</p>
+    </article>
+    <article class="stat-card">
+      <p class="stat-label">Aguardando check-in</p>
+      <p class="stat-value">{{ pendingCount }}</p>
+    </article>
+    <article class="stat-card">
+      <p class="stat-label">Presenças confirmadas</p>
+      <p class="stat-value">{{ checkedInCount }}</p>
+    </article>
+  </div>
+
+  <div *ngIf="!loading && registrations.length === 0" class="empty-state">
+    Você ainda não possui inscrições registradas.
+  </div>
+
+  <section *ngIf="!loading && registrations.length > 0" class="card-panel table-card">
+    <div class="table-wrap">
+      <table class="table align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Evento</th>
+            <th>Status</th>
+            <th>Inscrição</th>
+            <th>Check-in</th>
+            <th>Certificado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let registration of registrations; trackBy: trackByRegistrationId">
+            <td>
+              <strong>{{ registration.eventTitle }}</strong>
+            </td>
+            <td>
+              <span class="status-pill" [ngClass]="statusClass(registration.status)">
+                {{ registrationStatusLabel(registration.status) }}
+              </span>
+            </td>
+            <td>{{ formatDateTime(registration.registeredAt) }}</td>
+            <td>{{ formatDateTime(registration.checkedInAt) }}</td>
+            <td>{{ formatDateTime(registration.certificateIssuedAt) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>

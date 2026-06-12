@@ -1,0 +1,104 @@
+<section class="section-stack">
+  <div class="hero-panel card-panel">
+    <span class="eyebrow">Painel {{ roleLabel(currentRole) }}</span>
+    <h1 class="hero-title">Operação central do Eventus+.</h1>
+    <p class="hero-subtitle">
+      Acompanhe volumes, acesse os fluxos críticos do sistema e mantenha o evento sob controle.
+    </p>
+  </div>
+
+  <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
+  <div *ngIf="loading" class="loading-copy">Carregando painel...</div>
+
+  <div *ngIf="!loading" class="stats-grid">
+    <article class="stat-card">
+      <p class="stat-label">Eventos mapeados</p>
+      <p class="stat-value">{{ events.length }}</p>
+    </article>
+    <article class="stat-card">
+      <p class="stat-label">Eventos publicados</p>
+      <p class="stat-value">{{ publishedEvents }}</p>
+    </article>
+    <article class="stat-card">
+      <p class="stat-label">Inscrições totais</p>
+      <p class="stat-value">{{ registrations.length }}</p>
+    </article>
+    <article class="stat-card">
+      <p class="stat-label">Check-ins confirmados</p>
+      <p class="stat-value">{{ checkedInRegistrations }}</p>
+    </article>
+  </div>
+
+  <div class="quick-links">
+    <a *ngIf="isAdmin" routerLink="/gerenciar-eventos" class="card-panel quick-link">
+      <strong>Gerenciar eventos</strong>
+      <span>Criar, editar e publicar agendas.</span>
+    </a>
+    <a routerLink="/presencas" class="card-panel quick-link">
+      <strong>Confirmar presenças</strong>
+      <span>Executar o check-in e validar participação.</span>
+    </a>
+    <a *ngIf="isAdmin" routerLink="/relatorios" class="card-panel quick-link">
+      <strong>Relatórios</strong>
+      <span>Consultar capacidade, ocupação e presença.</span>
+    </a>
+    <a *ngIf="isAdmin" routerLink="/auditoria" class="card-panel quick-link">
+      <strong>Auditoria</strong>
+      <span>Revisar ações e rastreabilidade do sistema.</span>
+    </a>
+  </div>
+
+  <section *ngIf="isAdmin && events.length > 0" class="card-panel content-card">
+    <div class="section-heading">
+      <div>
+        <h2 class="section-title">Visão rápida dos eventos</h2>
+        <p class="section-subtitle">Panorama das agendas cadastradas no backend.</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="table align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Evento</th>
+            <th>Status</th>
+            <th>Início</th>
+            <th>Inscritos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let event of events.slice(0, 6); trackBy: trackByEventId">
+            <td>
+              <strong>{{ event.title }}</strong>
+              <div class="muted-line">{{ event.location }}</div>
+            </td>
+            <td>
+              <span class="status-pill" [ngClass]="statusClass(event.status)">
+                {{ eventStatusLabel(event.status) }}
+              </span>
+            </td>
+            <td>{{ formatDateTime(event.startsAt) }}</td>
+            <td>{{ event.registeredCount }}/{{ event.capacity }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section *ngIf="isAdmin && recentLogs.length > 0" class="card-panel content-card">
+    <div class="section-heading">
+      <div>
+        <h2 class="section-title">Atividade recente</h2>
+        <p class="section-subtitle">Últimos registros de auditoria coletados.</p>
+      </div>
+    </div>
+
+    <div class="log-list">
+      <article class="log-item" *ngFor="let log of recentLogs; trackBy: trackByLogId">
+        <strong>{{ auditActionLabel(log.action) }}</strong>
+        <span>{{ log.details || log.targetType }}</span>
+        <small>{{ formatDateTime(log.occurredAt) }}</small>
+      </article>
+    </div>
+  </section>
+</section>

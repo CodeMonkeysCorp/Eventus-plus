@@ -1,0 +1,56 @@
+.auth-layout {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+.auth-side,
+.auth-card {
+  padding: 1.6rem;
+}
+
+.auth-side {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(216, 138, 46, 0.18), transparent 26%),
+    linear-gradient(180deg, rgba(15, 97, 84, 0.08), rgba(255, 255, 255, 0.94));
+}
+
+.auth-side h1,
+.auth-card h2 {
+  margin: 1rem 0 0;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  letter-spacing: -0.05em;
+}
+
+.auth-copy,
+.auth-side p,
+.auth-footnote {
+  color: var(--muted);
+}
+
+.auth-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.password-field {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.65rem;
+}
+
+.auth-footnote {
+  margin: 1rem 0 0;
+}
+
+.auth-footnote a {
+  color: var(--brand);
+  font-weight: 700;
+}
+
+@media (max-width: 860px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+  }
+}

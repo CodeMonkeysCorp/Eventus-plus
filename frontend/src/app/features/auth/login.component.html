@@ -1,0 +1,60 @@
+<section class="auth-layout">
+  <div class="auth-side card-panel">
+    <span class="eyebrow">Acesso seguro</span>
+    <h1>Entre para gerenciar inscrições, presenças e certificados.</h1>
+    <p>
+      O Eventus+ concentra o fluxo completo do evento acadêmico, desde a inscrição
+      até a auditoria das ações administrativas.
+    </p>
+
+    <div class="auth-highlights">
+      <div>
+        <strong>Perfis separados</strong>
+        <span>Participante, operador e administrador com permissões distintas.</span>
+      </div>
+      <div>
+        <strong>Rastreamento</strong>
+        <span>Check-in, mudanças e tentativas de acesso ficam registradas.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-card card-panel">
+    <span class="eyebrow">Login</span>
+    <h2>Bem-vindo de volta</h2>
+    <p class="auth-copy">Use seu email e senha para continuar.</p>
+
+    <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
+
+    <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
+      <div>
+        <label class="form-label" for="email">Email</label>
+        <input id="email" class="form-control" type="email" formControlName="email" placeholder="voce@faculdade.br">
+      </div>
+
+      <div>
+        <label class="form-label" for="password">Senha</label>
+        <div class="password-field">
+          <input
+            id="password"
+            class="form-control"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Digite sua senha">
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+            {{ showPassword ? 'Ocultar' : 'Mostrar' }}
+          </button>
+        </div>
+      </div>
+
+      <button class="btn btn-aurora w-100" type="submit" [disabled]="loading">
+        {{ loading ? 'Entrando...' : 'Entrar' }}
+      </button>
+    </form>
+
+    <p class="auth-footnote">
+      Ainda não tem conta?
+      <a routerLink="/register">Criar conta de participante</a>
+    </p>
+  </div>
+</section>

@@ -1,0 +1,75 @@
+.events-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.event-card {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1.6fr 0.65fr;
+  padding: 1.4rem;
+}
+
+.event-meta,
+.details-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.event-meta {
+  grid-auto-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.event-card h2 {
+  margin: 0;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.event-card p,
+.event-card span {
+  color: var(--muted);
+}
+
+.details-grid {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin-top: 1rem;
+}
+
+.details-grid strong,
+.event-capacity {
+  color: #4d453d;
+}
+
+.details-grid span {
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.event-side {
+  display: flex;
+  align-items: center;
+}
+
+.event-cta {
+  width: 100%;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 18px;
+  background: rgba(15, 97, 84, 0.05);
+  border: 1px solid rgba(15, 97, 84, 0.12);
+}
+
+.helper-copy {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 860px) {
+  .event-card {
+    grid-template-columns: 1fr;
+  }
+}
