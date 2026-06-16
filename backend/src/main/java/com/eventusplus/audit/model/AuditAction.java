@@ -1,0 +1,14 @@
+package com.eventusplus.audit.model;
+
+public enum AuditAction {
+    REGISTER,
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE,
+    EVENT_CREATED,
+    EVENT_UPDATED,
+    EVENT_DELETED,
+    REGISTRATION_CREATED,
+    CHECK_IN_CONFIRMED,
+    AUTHENTICATION_REQUIRED,
+    ACCESS_DENIED
+}
