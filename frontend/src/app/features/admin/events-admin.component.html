@@ -1,8 +1,8 @@
 <section class="section-stack">
   <div class="hero-panel card-panel">
-    <span class="eyebrow">Administração de eventos</span>
-    <h1 class="hero-title">Monte a agenda e publique as experiências do sistema.</h1>
-    <p class="hero-subtitle">Crie eventos, ajuste vagas, feche inscrições e mantenha a trilha administrativa coerente.</p>
+    <span class="eyebrow">Agenda</span>
+    <h1 class="hero-title">Crie, atualize e publique os eventos.</h1>
+    <p class="hero-subtitle">Mantenha datas, vagas e status organizados em um só lugar.</p>
   </div>
 
   <div *ngIf="successMessage" class="feedback-success">{{ successMessage }}</div>
@@ -13,7 +13,7 @@
       <div class="section-heading">
         <div>
           <h2 class="section-title">{{ isEditing ? 'Editar evento' : 'Novo evento' }}</h2>
-          <p class="section-subtitle">Preencha os dados principais do evento acadêmico.</p>
+          <p class="section-subtitle">Preencha os dados principais da agenda.</p>
         </div>
       </div>
 
@@ -71,13 +71,13 @@
     <section class="card-panel list-card">
       <div class="section-heading">
         <div>
-          <h2 class="section-title">Eventos cadastrados</h2>
-          <p class="section-subtitle">Lista completa retornada pelo backend administrativo.</p>
+          <h2 class="section-title">Agenda cadastrada</h2>
+          <p class="section-subtitle">Consulte, edite ou remova os eventos já criados.</p>
         </div>
       </div>
 
       <div *ngIf="loading" class="loading-copy">Carregando eventos...</div>
-      <div *ngIf="!loading && events.length === 0" class="empty-state">Nenhum evento cadastrado ainda.</div>
+      <div *ngIf="!loading && events.length === 0" class="empty-state">Nenhum evento cadastrado até agora.</div>
 
       <div *ngIf="!loading && events.length > 0" class="table-wrap">
         <table class="table align-middle mb-0">

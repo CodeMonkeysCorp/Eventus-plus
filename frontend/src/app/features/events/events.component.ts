@@ -43,6 +43,11 @@ export class EventsComponent implements OnInit {
     return this.authService.isAuthenticated();
   }
 
+  get visibleEvents(): EventResponse[] {
+    return [...this.events]
+      .sort((left, right) => new Date(left.startsAt).getTime() - new Date(right.startsAt).getTime());
+  }
+
   canRegister(event: EventResponse): boolean {
     return this.isParticipant &&
       event.status === 'PUBLISHED' &&
@@ -81,7 +86,7 @@ export class EventsComponent implements OnInit {
   }
 
   statusClass(status: string): string {
-    return `status-pill is-${status.toLowerCase()}`;
+    return `status-pill is-${status.toLowerCase().replace('_', '-')}`;
   }
 
   trackByEventId(_index: number, event: EventResponse): number {

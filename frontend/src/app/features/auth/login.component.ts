@@ -6,6 +6,8 @@ import { finalize } from 'rxjs';
 import { ApiErrorService } from '../../core/services/api-error.service';
 import { AuthService } from '../../core/services/auth.service';
 
+type LoginField = 'email' | 'password';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -46,8 +48,12 @@ export class LoginComponent {
       return;
     }
 
+    const raw = this.form.getRawValue();
     this.loading = true;
-    this.authService.login(this.form.getRawValue())
+    this.authService.login({
+      email: raw.email.trim().toLowerCase(),
+      password: raw.password
+    })
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (session) => {
@@ -65,5 +71,27 @@ export class LoginComponent {
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
+  }
+
+  fieldInvalid(field: LoginField): boolean {
+    const control = this.form.controls[field];
+    return control.invalid && (control.touched || this.submitAttempted);
+  }
+
+  fieldError(field: LoginField): string {
+    const control = this.form.controls[field];
+    if (!this.fieldInvalid(field)) {
+      return '';
+    }
+
+    if (control.hasError('required')) {
+      return field === 'email' ? 'Informe seu email.' : 'Informe sua senha.';
+    }
+
+    if (field === 'email' && control.hasError('email')) {
+      return 'Digite um email válido.';
+    }
+
+    return 'Revise este campo.';
   }
 }

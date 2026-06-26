@@ -1,63 +1,97 @@
 <section class="auth-layout">
   <div class="auth-side card-panel">
-    <span class="eyebrow">Primeiro acesso</span>
-    <h1>Crie sua conta e acompanhe seus eventos em um único lugar.</h1>
-    <p>
-      O cadastro gera uma conta de participante para inscrição em eventos,
-      consulta de presenças e acesso aos certificados liberados.
-    </p>
+    <div class="auth-side-body">
+      <span class="eyebrow">Eventus+</span>
+      <p class="auth-kicker">Primeiro acesso</p>
+      <h1>Crie sua conta.</h1>
+      <p>Cadastre-se para acompanhar eventos, inscrições e certificados sem sair da plataforma.</p>
+    </div>
+
+    <div class="auth-side-link">
+      <span>Já possui acesso?</span>
+      <a routerLink="/login">Entrar</a>
+    </div>
   </div>
 
   <div class="auth-card card-panel">
-    <span class="eyebrow">Cadastro</span>
-    <h2>Comece pelo perfil de participante</h2>
-    <p class="auth-copy">Depois o time administrador pode ampliar os acessos quando necessário.</p>
+    <div class="auth-card-header">
+      <span class="eyebrow">Cadastro</span>
+      <h2>Criar conta</h2>
+      <p class="auth-copy">Preencha seus dados para começar.</p>
+    </div>
 
     <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
 
     <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
-      <div>
-        <label class="form-label" for="fullName">Nome completo</label>
-        <input id="fullName" class="form-control" type="text" formControlName="fullName" placeholder="Seu nome completo">
-      </div>
-
-      <div>
-        <label class="form-label" for="email">Email</label>
-        <input id="email" class="form-control" type="email" formControlName="email" placeholder="voce@faculdade.br">
-      </div>
-
-      <div>
-        <label class="form-label" for="password">Senha</label>
-        <div class="password-field">
+      <div class="field-grid">
+        <div class="field-group">
+          <label class="form-label" for="fullName">Nome completo</label>
           <input
-            id="password"
+            id="fullName"
             class="form-control"
-            [type]="showPassword ? 'text' : 'password'"
-            formControlName="password"
-            placeholder="Mínimo de 8 caracteres">
-          <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
-            {{ showPassword ? 'Ocultar' : 'Mostrar' }}
-          </button>
+            [class.is-invalid]="fieldInvalid('fullName')"
+            type="text"
+            autocomplete="name"
+            formControlName="fullName"
+            placeholder="Seu nome completo">
+          <small *ngIf="fieldInvalid('fullName')" class="field-error">{{ fieldError('fullName') }}</small>
+        </div>
+
+        <div class="field-group">
+          <label class="form-label" for="email">Email</label>
+          <input
+            id="email"
+            class="form-control"
+            [class.is-invalid]="fieldInvalid('email')"
+            type="email"
+            inputmode="email"
+            autocomplete="email"
+            formControlName="email"
+            placeholder="voce@empresa.com">
+          <small *ngIf="fieldInvalid('email')" class="field-error">{{ fieldError('email') }}</small>
         </div>
       </div>
 
-      <div>
-        <label class="form-label" for="confirmPassword">Confirmar senha</label>
-        <div class="password-field">
-          <input
-            id="confirmPassword"
-            class="form-control"
-            [type]="showConfirmPassword ? 'text' : 'password'"
-            formControlName="confirmPassword"
-            placeholder="Repita a senha">
-          <button type="button" class="btn btn-outline-secondary" (click)="toggleConfirmPassword()">
-            {{ showConfirmPassword ? 'Ocultar' : 'Mostrar' }}
-          </button>
+      <div class="field-grid">
+        <div class="field-group">
+          <label class="form-label" for="password">Senha</label>
+          <div class="password-field">
+            <input
+              id="password"
+              class="form-control"
+              [class.is-invalid]="fieldInvalid('password')"
+              [type]="showPassword ? 'text' : 'password'"
+              autocomplete="new-password"
+              formControlName="password"
+              placeholder="Mínimo de 8 caracteres">
+            <button type="button" class="btn btn-outline-secondary toggle-button" (click)="togglePassword()">
+              {{ showPassword ? 'Ocultar' : 'Mostrar' }}
+            </button>
+          </div>
+          <small class="field-hint">Use entre 8 e 72 caracteres.</small>
+          <small *ngIf="fieldInvalid('password')" class="field-error">{{ fieldError('password') }}</small>
         </div>
-        <small *ngIf="passwordsMismatch" class="text-danger">As senhas precisam ser iguais.</small>
+
+        <div class="field-group">
+          <label class="form-label" for="confirmPassword">Confirmar senha</label>
+          <div class="password-field">
+            <input
+              id="confirmPassword"
+              class="form-control"
+              [class.is-invalid]="fieldInvalid('confirmPassword')"
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              autocomplete="new-password"
+              formControlName="confirmPassword"
+              placeholder="Repita a senha">
+            <button type="button" class="btn btn-outline-secondary toggle-button" (click)="toggleConfirmPassword()">
+              {{ showConfirmPassword ? 'Ocultar' : 'Mostrar' }}
+            </button>
+          </div>
+          <small *ngIf="fieldInvalid('confirmPassword')" class="field-error">{{ fieldError('confirmPassword') }}</small>
+        </div>
       </div>
 
-      <button class="btn btn-aurora w-100" type="submit" [disabled]="loading">
+      <button class="btn btn-aurora w-100 auth-submit" type="submit" [disabled]="loading">
         {{ loading ? 'Criando conta...' : 'Criar conta' }}
       </button>
     </form>

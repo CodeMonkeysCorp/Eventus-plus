@@ -11,6 +11,12 @@ import { RegistrationsService } from '../../core/services/registrations.service'
 import { formatDateTime } from '../../shared/utils/date.utils';
 import { eventStatusLabel } from '../../shared/utils/labels.utils';
 
+type HomeStat = {
+  label: string;
+  value: number;
+  hint: string;
+};
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -62,28 +68,52 @@ export class HomeComponent implements OnInit {
     return this.registrations.filter((registration) => registration.status === 'CHECKED_IN').length;
   }
 
+  get pendingRegistrations(): number {
+    return this.registrations.filter((registration) => registration.status === 'REGISTERED').length;
+  }
+
+  get homeStats(): HomeStat[] {
+    if (this.isParticipant) {
+      return [
+        { label: 'Minhas inscrições', value: this.registrations.length, hint: 'acompanhadas em um só lugar' },
+        { label: 'Presenças confirmadas', value: this.checkedInCount, hint: 'eventos com check-in concluído' },
+        { label: 'Certificados', value: this.certificates.length, hint: 'já disponíveis para consulta' }
+      ];
+    }
+
+    if (this.isStaff) {
+      return [
+        { label: 'Eventos publicados', value: this.events.length, hint: 'prontos para operação' },
+        { label: 'Inscrições pendentes', value: this.pendingRegistrations, hint: 'aguardando check-in' },
+        { label: 'Presenças confirmadas', value: this.checkedInCount, hint: 'já registradas no sistema' }
+      ];
+    }
+
+    return [];
+  }
+
   get heroTitle(): string {
     if (this.isStaff) {
-      return 'Coordene eventos, acompanhe inscrições e confirme presenças sem perder o contexto.';
+      return 'Centralize a operação dos eventos e acompanhe tudo sem planilhas paralelas.';
     }
 
     if (this.isParticipant) {
       return `Olá, ${this.currentUser?.fullName.split(' ')[0] ?? 'participante'}. Seus próximos eventos começam aqui.`;
     }
 
-    return 'Gerencie eventos acadêmicos com inscrição, presença e trilha de auditoria.';
+    return 'Organize eventos com inscrições, presença e certificados em um só fluxo.';
   }
 
   get heroSubtitle(): string {
     if (this.isStaff) {
-      return 'O painel administrativo centraliza eventos, check-ins, relatórios e logs para a operação do projeto.';
+      return 'Acesse o painel, confirme presenças e acompanhe a agenda publicada com mais clareza.';
     }
 
     if (this.isParticipant) {
-      return 'Veja o que já está aberto para inscrição, acompanhe suas presenças e libere seus certificados.';
+      return 'Veja o que já está aberto para inscrição, acompanhe sua presença e consulte certificados quando liberados.';
     }
 
-    return 'Explore os eventos publicados e entre para acompanhar inscrições, certificados e administração segura.';
+    return 'Descubra os próximos eventos e crie sua conta para acompanhar toda a sua participação.';
   }
 
   statusClass(status: string): string {
@@ -100,6 +130,10 @@ export class HomeComponent implements OnInit {
 
   trackByEventId(_index: number, event: EventResponse): number {
     return event.id;
+  }
+
+  trackByStatLabel(_index: number, stat: HomeStat): string {
+    return stat.label;
   }
 
   private loadHome(): void {

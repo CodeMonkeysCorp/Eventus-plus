@@ -1,33 +1,28 @@
 <section class="section-stack">
   <div class="hero-panel card-panel">
     <span class="eyebrow">Minhas inscrições</span>
-    <h1 class="hero-title">Acompanhe o status de cada participação.</h1>
-    <p class="hero-subtitle">Veja o que já foi inscrito, confirmado e liberado para certificado.</p>
+    <h1 class="hero-title">Acompanhe suas participações em andamento.</h1>
+    <p class="hero-subtitle">Consulte status, presença e liberação de certificado por evento.</p>
   </div>
 
   <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
   <div *ngIf="loading" class="loading-copy">Carregando suas inscrições...</div>
-
-  <div *ngIf="!loading" class="stats-grid">
-    <article class="stat-card">
-      <p class="stat-label">Total de inscrições</p>
-      <p class="stat-value">{{ registrations.length }}</p>
-    </article>
-    <article class="stat-card">
-      <p class="stat-label">Aguardando check-in</p>
-      <p class="stat-value">{{ pendingCount }}</p>
-    </article>
-    <article class="stat-card">
-      <p class="stat-label">Presenças confirmadas</p>
-      <p class="stat-value">{{ checkedInCount }}</p>
-    </article>
-  </div>
 
   <div *ngIf="!loading && registrations.length === 0" class="empty-state">
     Você ainda não possui inscrições registradas.
   </div>
 
   <section *ngIf="!loading && registrations.length > 0" class="card-panel table-card">
+    <div class="section-heading">
+      <div>
+        <h2 class="section-title">Suas inscrições</h2>
+        <p class="section-subtitle">
+          {{ registrations.length }} registro{{ registrations.length === 1 ? '' : 's' }}
+          e {{ checkedInCount }} presença{{ checkedInCount === 1 ? '' : 's' }} confirmada{{ checkedInCount === 1 ? '' : 's' }}.
+        </p>
+      </div>
+    </div>
+
     <div class="table-wrap">
       <table class="table align-middle mb-0">
         <thead>

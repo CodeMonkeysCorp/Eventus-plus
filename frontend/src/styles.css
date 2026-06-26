@@ -147,6 +147,13 @@ textarea {
   line-height: 1;
 }
 
+.stat-hint {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
 .section-heading {
   display: flex;
   justify-content: space-between;
@@ -164,6 +171,7 @@ textarea {
 
 .section-subtitle {
   margin: 0.35rem 0 0;
+  max-width: 60ch;
   color: var(--muted);
 }
 
@@ -307,6 +315,11 @@ textarea.form-control {
   font-weight: 600;
 }
 
+.muted-line {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
 @media (max-width: 900px) {
   .split-grid {
     grid-template-columns: 1fr;
@@ -321,5 +334,10 @@ textarea.form-control {
   .hero-panel,
   .card-panel {
     border-radius: 20px;
+  }
+
+  .section-heading {
+    flex-direction: column;
+    align-items: stretch;
   }
 }

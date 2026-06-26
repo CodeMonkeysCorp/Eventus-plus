@@ -25,10 +25,6 @@ export class RegistrationsComponent implements OnInit {
     this.loadRegistrations();
   }
 
-  get pendingCount(): number {
-    return this.registrations.filter((registration) => registration.status === 'REGISTERED').length;
-  }
-
   get checkedInCount(): number {
     return this.registrations.filter((registration) => registration.status === 'CHECKED_IN').length;
   }

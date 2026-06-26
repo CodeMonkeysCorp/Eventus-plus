@@ -1,3 +1,51 @@
+.home-hero {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1.35fr 0.9fr;
+}
+
+.hero-aside {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.hero-stat {
+  padding: 1rem 1.1rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(34, 30, 26, 0.08);
+}
+
+.hero-stat span,
+.hero-stat strong,
+.hero-stat small {
+  display: block;
+}
+
+.hero-stat span,
+.hero-stat small {
+  color: var(--muted);
+}
+
+.hero-stat span {
+  font-size: 0.84rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 800;
+}
+
+.hero-stat strong {
+  margin-top: 0.35rem;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  font-size: 1.9rem;
+  line-height: 1;
+}
+
+.hero-stat small {
+  margin-top: 0.45rem;
+  font-size: 0.9rem;
+}
+
 .section-card {
   padding: 1.5rem;
 }
@@ -55,4 +103,14 @@
   font-size: 0.88rem;
   color: var(--muted);
   font-weight: 700;
+}
+
+.event-description {
+  margin: 0.7rem 0 0;
+}
+
+@media (max-width: 900px) {
+  .home-hero {
+    grid-template-columns: 1fr;
+  }
 }

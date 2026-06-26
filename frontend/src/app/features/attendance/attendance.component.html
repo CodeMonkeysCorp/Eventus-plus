@@ -2,7 +2,7 @@
   <div class="hero-panel card-panel">
     <span class="eyebrow">Check-in</span>
     <h1 class="hero-title">Valide a presença dos participantes no momento do evento.</h1>
-    <p class="hero-subtitle">Use a lista abaixo para localizar rapidamente a inscrição e registrar a chegada.</p>
+    <p class="hero-subtitle">Busque a inscrição certa e confirme a chegada em poucos passos.</p>
   </div>
 
   <div *ngIf="successMessage" class="feedback-success">{{ successMessage }}</div>
@@ -27,8 +27,8 @@
   <section class="card-panel content-card">
     <div class="section-heading">
       <div>
-        <h2 class="section-title">Fila de presenças</h2>
-        <p class="section-subtitle">Filtre por nome do participante, email ou evento.</p>
+        <h2 class="section-title">Confirmações de presença</h2>
+        <p class="section-subtitle">Filtre por participante, e-mail ou evento.</p>
       </div>
       <input class="form-control search-field" type="search" [(ngModel)]="query" placeholder="Buscar inscrição...">
     </div>

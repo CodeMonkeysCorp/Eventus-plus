@@ -1,22 +1,32 @@
 <section class="section-stack">
   <div class="hero-panel card-panel">
-    <span class="eyebrow">Catálogo de eventos</span>
-    <h1 class="hero-title">Inscrições abertas para as próximas experiências acadêmicas.</h1>
-    <p class="hero-subtitle">
-      Explore os eventos publicados, acompanhe a disponibilidade e realize sua inscrição direto na plataforma.
-    </p>
+    <span class="eyebrow">Eventos</span>
+    <h1 class="hero-title">Encontre o próximo evento e faça sua inscrição.</h1>
+    <p class="hero-subtitle">Acompanhe agenda, vagas e status em um só lugar.</p>
   </div>
 
   <div *ngIf="successMessage" class="feedback-success">{{ successMessage }}</div>
   <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
   <div *ngIf="loading" class="loading-copy">Carregando eventos publicados...</div>
 
-  <div *ngIf="!loading && events.length === 0" class="empty-state">
+  <div *ngIf="!loading && visibleEvents.length > 0" class="catalog-summary card-panel">
+    <div class="catalog-summary-copy">
+      <strong>{{ visibleEvents.length }}</strong>
+      <span>evento{{ visibleEvents.length === 1 ? '' : 's' }} disponível{{ visibleEvents.length === 1 ? '' : 'is' }}</span>
+    </div>
+    <span *ngIf="isParticipant" class="summary-copy">
+      {{ registeredEventIds.size }}
+      {{ registeredEventIds.size === 1 ? 'inscrição já registrada' : 'inscrições já registradas' }}
+    </span>
+    <a *ngIf="!isAuthenticated" routerLink="/register" class="btn btn-sm btn-sand">Criar conta</a>
+  </div>
+
+  <div *ngIf="!loading && visibleEvents.length === 0" class="empty-state">
     Ainda não há eventos publicados.
   </div>
 
-  <div *ngIf="!loading && events.length > 0" class="events-list">
-    <article class="card-panel event-card" *ngFor="let event of events; trackBy: trackByEventId">
+  <div *ngIf="!loading && visibleEvents.length > 0" class="events-list">
+    <article class="card-panel event-card" *ngFor="let event of visibleEvents; trackBy: trackByEventId">
       <div class="event-main">
         <div class="event-meta">
           <span class="status-pill" [ngClass]="statusClass(event.status)">{{ eventStatusLabel(event.status) }}</span>
@@ -24,7 +34,7 @@
         </div>
 
         <h2>{{ event.title }}</h2>
-        <p>{{ event.description || 'Sem descrição detalhada informada para este evento.' }}</p>
+        <p *ngIf="event.description">{{ event.description }}</p>
 
         <div class="details-grid">
           <div>
@@ -48,7 +58,7 @@
 
       <div class="event-side">
         <div class="event-cta">
-          <span *ngIf="registeredEventIds.has(event.id)" class="status-pill is-checked-in">Inscrição registrada</span>
+          <span *ngIf="registeredEventIds.has(event.id)" class="status-pill is-checked-in">Inscrição confirmada</span>
           <button
             *ngIf="canRegister(event)"
             type="button"
@@ -59,7 +69,7 @@
           </button>
 
           <a *ngIf="!isAuthenticated" routerLink="/login" class="btn btn-outline-secondary w-100">Entrar para se inscrever</a>
-          <span *ngIf="isAuthenticated && !isParticipant" class="helper-copy">Somente participantes podem se inscrever.</span>
+          <span *ngIf="isAuthenticated && !isParticipant" class="helper-copy">Seu perfil pode acompanhar os eventos, mas não realiza inscrições.</span>
           <span *ngIf="event.availableSpots === 0" class="helper-copy">Evento lotado no momento.</span>
         </div>
       </div>

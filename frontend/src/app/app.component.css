@@ -16,12 +16,27 @@
 }
 
 .brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  color: var(--brand);
+  white-space: nowrap;
+}
+
+.brand-mark {
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--brand);
   letter-spacing: 0.4px;
-  white-space: nowrap;
+}
+
+.brand small {
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #7d6c5f;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .topbar-links {
@@ -72,13 +87,20 @@
   gap: 0.6rem;
 }
 
-.user-chip {
-  font-size: 0.88rem;
-  font-weight: 600;
+.user-summary {
+  display: grid;
+  justify-items: end;
+  gap: 0.1rem;
+}
+
+.user-summary strong {
+  font-size: 0.92rem;
+}
+
+.user-summary span {
+  font-size: 0.8rem;
+  font-weight: 700;
   color: var(--brand-ink);
-  background: rgba(var(--brand-rgb), 0.12);
-  border-radius: 999px;
-  padding: 0.38rem 0.75rem;
 }
 
 .main-wrap {
@@ -115,5 +137,9 @@
 
   .topbar-user {
     margin-left: auto;
+  }
+
+  .user-summary {
+    justify-items: start;
   }
 }

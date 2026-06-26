@@ -1,60 +1,70 @@
 <section class="auth-layout">
   <div class="auth-side card-panel">
-    <span class="eyebrow">Acesso seguro</span>
-    <h1>Entre para gerenciar inscrições, presenças e certificados.</h1>
-    <p>
-      O Eventus+ concentra o fluxo completo do evento acadêmico, desde a inscrição
-      até a auditoria das ações administrativas.
-    </p>
+    <div class="auth-side-body">
+      <span class="eyebrow">Eventus+</span>
+      <p class="auth-kicker">Acesso à plataforma</p>
+      <h1>Acesse sua conta.</h1>
+      <p>Entre para acompanhar inscrições, presença e certificados em um só lugar.</p>
+    </div>
 
-    <div class="auth-highlights">
-      <div>
-        <strong>Perfis separados</strong>
-        <span>Participante, operador e administrador com permissões distintas.</span>
-      </div>
-      <div>
-        <strong>Rastreamento</strong>
-        <span>Check-in, mudanças e tentativas de acesso ficam registradas.</span>
-      </div>
+    <div class="auth-side-link">
+      <span>Novo por aqui?</span>
+      <a routerLink="/register">Criar conta</a>
     </div>
   </div>
 
   <div class="auth-card card-panel">
-    <span class="eyebrow">Login</span>
-    <h2>Bem-vindo de volta</h2>
-    <p class="auth-copy">Use seu email e senha para continuar.</p>
+    <div class="auth-card-header">
+      <span class="eyebrow">Login</span>
+      <h2>Entrar</h2>
+      <p class="auth-copy">Use seu email e senha para continuar.</p>
+    </div>
 
     <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
 
     <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
-      <div>
+      <div class="field-group">
         <label class="form-label" for="email">Email</label>
-        <input id="email" class="form-control" type="email" formControlName="email" placeholder="voce@faculdade.br">
+        <input
+          id="email"
+          class="form-control"
+          [class.is-invalid]="fieldInvalid('email')"
+          type="email"
+          inputmode="email"
+          autocomplete="email"
+          formControlName="email"
+          placeholder="voce@empresa.com">
+        <small *ngIf="fieldInvalid('email')" class="field-error">{{ fieldError('email') }}</small>
       </div>
 
-      <div>
-        <label class="form-label" for="password">Senha</label>
+      <div class="field-group">
+        <div class="field-label-row">
+          <label class="form-label" for="password">Senha</label>
+        </div>
         <div class="password-field">
           <input
             id="password"
             class="form-control"
+            [class.is-invalid]="fieldInvalid('password')"
             [type]="showPassword ? 'text' : 'password'"
+            autocomplete="current-password"
             formControlName="password"
             placeholder="Digite sua senha">
-          <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+          <button type="button" class="btn btn-outline-secondary toggle-button" (click)="togglePassword()">
             {{ showPassword ? 'Ocultar' : 'Mostrar' }}
           </button>
         </div>
+        <small *ngIf="fieldInvalid('password')" class="field-error">{{ fieldError('password') }}</small>
       </div>
 
-      <button class="btn btn-aurora w-100" type="submit" [disabled]="loading">
+      <button class="btn btn-aurora w-100 auth-submit" type="submit" [disabled]="loading">
         {{ loading ? 'Entrando...' : 'Entrar' }}
       </button>
     </form>
 
     <p class="auth-footnote">
       Ainda não tem conta?
-      <a routerLink="/register">Criar conta de participante</a>
+      <a routerLink="/register">Criar conta</a>
     </p>
   </div>
 </section>

@@ -42,6 +42,10 @@ export class AppComponent implements OnInit {
     return roleLabel(role);
   }
 
+  firstName(fullName: string): string {
+    return fullName.trim().split(' ')[0] || 'Usuario';
+  }
+
   logout(): void {
     this.authService.logout();
     void this.router.navigate(['/login']);

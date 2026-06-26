@@ -7,6 +7,8 @@ import { RegisterPayload } from '../../core/models';
 import { ApiErrorService } from '../../core/services/api-error.service';
 import { AuthService } from '../../core/services/auth.service';
 
+type RegisterField = 'fullName' | 'email' | 'password' | 'confirmPassword';
+
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -46,12 +48,10 @@ export class RegisterComponent {
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      this.errorMessage = 'Revise os campos destacados para continuar.';
       return;
     }
 
-    if (this.form.controls.password.value !== this.form.controls.confirmPassword.value) {
-      this.errorMessage = 'As senhas não conferem.';
+    if (this.passwordsMismatch) {
       this.form.controls.confirmPassword.markAsTouched();
       return;
     }
@@ -88,5 +88,63 @@ export class RegisterComponent {
       this.form.controls.password.value.length > 0 &&
       this.form.controls.confirmPassword.value.length > 0 &&
       this.form.controls.password.value !== this.form.controls.confirmPassword.value;
+  }
+
+  fieldInvalid(field: RegisterField): boolean {
+    const control = this.form.controls[field];
+    if (field === 'confirmPassword' && this.passwordsMismatch) {
+      return true;
+    }
+
+    return control.invalid && (control.touched || this.submitAttempted);
+  }
+
+  fieldError(field: RegisterField): string {
+    const control = this.form.controls[field];
+    if (!this.fieldInvalid(field)) {
+      return '';
+    }
+
+    if (field === 'fullName') {
+      if (control.hasError('required')) {
+        return 'Informe seu nome.';
+      }
+
+      if (control.hasError('minlength')) {
+        return 'Use pelo menos 3 caracteres.';
+      }
+    }
+
+    if (field === 'email') {
+      if (control.hasError('required')) {
+        return 'Informe seu email.';
+      }
+
+      if (control.hasError('email')) {
+        return 'Digite um email válido.';
+      }
+    }
+
+    if (field === 'password') {
+      if (control.hasError('required')) {
+        return 'Informe uma senha.';
+      }
+
+      if (control.hasError('minlength')) {
+        return 'Use no mínimo 8 caracteres.';
+      }
+    }
+
+    if (field === 'confirmPassword') {
+      if (control.hasError('required')) {
+        return 'Confirme sua senha.';
+      }
+
+      if (this.passwordsMismatch) {
+        return 'As senhas precisam ser iguais.';
+      }
+    }
+
+    return 'Revise este campo.';
   }
 }

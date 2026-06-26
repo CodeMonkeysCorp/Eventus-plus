@@ -1,8 +1,8 @@
 <section class="section-stack">
   <div class="hero-panel card-panel">
     <span class="eyebrow">Auditoria</span>
-    <h1 class="hero-title">Rastreabilidade das ações e dos acessos no backend.</h1>
-    <p class="hero-subtitle">Consulte os registros recentes de autenticação, administração, inscrição e check-in.</p>
+    <h1 class="hero-title">Acompanhe acessos e ações administrativas.</h1>
+    <p class="hero-subtitle">Consulte os registros mais recentes de autenticação, inscrições e check-ins.</p>
   </div>
 
   <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
@@ -10,8 +10,8 @@
   <section class="card-panel audit-card">
     <div class="section-heading">
       <div>
-        <h2 class="section-title">Logs recentes</h2>
-        <p class="section-subtitle">Escolha quantos registros deseja consultar.</p>
+        <h2 class="section-title">Registros recentes</h2>
+        <p class="section-subtitle">Defina a quantidade exibida na consulta.</p>
       </div>
       <div class="limit-box">
         <select class="form-select" [(ngModel)]="limit" (ngModelChange)="loadLogs()">

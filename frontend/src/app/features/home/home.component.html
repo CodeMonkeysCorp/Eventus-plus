@@ -1,44 +1,37 @@
 <section class="section-stack">
-  <div class="hero-panel card-panel">
-    <span class="eyebrow">Eventus+ em operação</span>
-    <h1 class="hero-title">{{ heroTitle }}</h1>
-    <p class="hero-subtitle">{{ heroSubtitle }}</p>
+  <div class="hero-panel card-panel home-hero">
+    <div>
+      <span class="eyebrow">Eventus+</span>
+      <h1 class="hero-title">{{ heroTitle }}</h1>
+      <p class="hero-subtitle">{{ heroSubtitle }}</p>
 
-    <div class="action-row mt-4">
-      <a routerLink="/eventos" class="btn btn-aurora">Explorar eventos</a>
-      <a *ngIf="!isAuthenticated" routerLink="/register" class="btn btn-sand">Criar conta</a>
-      <a *ngIf="isParticipant" routerLink="/minhas-inscricoes" class="btn btn-outline-secondary">Ver minhas inscrições</a>
-      <a *ngIf="isStaff" routerLink="/painel" class="btn btn-outline-secondary">Abrir painel</a>
+      <div class="action-row mt-4">
+        <a routerLink="/eventos" class="btn btn-aurora">Explorar eventos</a>
+        <a *ngIf="!isAuthenticated" routerLink="/register" class="btn btn-sand">Criar conta</a>
+        <a *ngIf="isParticipant" routerLink="/minhas-inscricoes" class="btn btn-outline-secondary">Minhas inscrições</a>
+        <a *ngIf="isStaff" routerLink="/painel" class="btn btn-outline-secondary">Abrir painel</a>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && homeStats.length > 0" class="hero-aside">
+      <article class="hero-stat" *ngFor="let stat of homeStats; trackBy: trackByStatLabel">
+        <span>{{ stat.label }}</span>
+        <strong>{{ stat.value }}</strong>
+        <small>{{ stat.hint }}</small>
+      </article>
     </div>
   </div>
 
   <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
-  <div *ngIf="loading" class="loading-copy">Carregando dados iniciais...</div>
-
-  <div *ngIf="!loading" class="stats-grid">
-    <article class="stat-card">
-      <p class="stat-label">Eventos publicados</p>
-      <p class="stat-value">{{ events.length }}</p>
-    </article>
-    <article class="stat-card">
-      <p class="stat-label">Inscrições ativas</p>
-      <p class="stat-value">{{ registrations.length }}</p>
-    </article>
-    <article class="stat-card">
-      <p class="stat-label">Check-ins confirmados</p>
-      <p class="stat-value">{{ checkedInCount }}</p>
-    </article>
-    <article class="stat-card">
-      <p class="stat-label">Certificados liberados</p>
-      <p class="stat-value">{{ certificates.length }}</p>
-    </article>
-  </div>
+  <div *ngIf="loading" class="loading-copy">Carregando eventos e resumos...</div>
 
   <section class="card-panel section-card">
     <div class="section-heading">
       <div>
-        <h2 class="section-title">Próximos eventos em destaque</h2>
-        <p class="section-subtitle">Uma amostra do que já está aberto no sistema.</p>
+        <h2 class="section-title">Próximos eventos</h2>
+        <p class="section-subtitle">
+          {{ isStaff ? 'Agenda publicada para acompanhamento e operação.' : 'Eventos com inscrições e vagas visíveis agora.' }}
+        </p>
       </div>
       <a routerLink="/eventos" class="btn btn-outline-secondary">Ver todos</a>
     </div>
@@ -54,7 +47,7 @@
           <span class="event-spots">{{ event.availableSpots }} vagas livres</span>
         </div>
         <h3>{{ event.title }}</h3>
-        <p>{{ event.description || 'Evento acadêmico publicado para demonstração do fluxo completo.' }}</p>
+        <p *ngIf="event.description" class="event-description">{{ event.description }}</p>
         <dl>
           <div>
             <dt>Quando</dt>

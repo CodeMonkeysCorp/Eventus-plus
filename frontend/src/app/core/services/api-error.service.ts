@@ -12,7 +12,7 @@ export class ApiErrorService {
     }
 
     if (error.status === 0) {
-      return 'Não foi possível conectar com o backend.';
+      return 'Não foi possível conectar com o servidor.';
     }
 
     if (typeof error.error === 'string' && error.error.trim().length > 0) {

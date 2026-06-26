@@ -1,8 +1,8 @@
 <section class="section-stack">
   <div class="hero-panel card-panel">
     <span class="eyebrow">Certificados</span>
-    <h1 class="hero-title">Seus comprovantes fictícios liberados após a presença.</h1>
-    <p class="hero-subtitle">Cada certificado aparece quando o check-in é confirmado pela operação do evento.</p>
+    <h1 class="hero-title">Seus certificados ficam disponíveis depois da confirmação de presença.</h1>
+    <p class="hero-subtitle">Consulte as emissões já liberadas para cada evento.</p>
   </div>
 
   <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
@@ -16,7 +16,7 @@
     <article class="card-panel certificate-card" *ngFor="let certificate of certificates; trackBy: trackByCertificateId">
       <span class="eyebrow">Emitido</span>
       <h2>{{ certificate.eventTitle }}</h2>
-      <p>Registro da participação referente à inscrição #{{ certificate.registrationId }}.</p>
+      <p>Participação confirmada e pronta para consulta.</p>
       <strong>{{ formatDateTime(certificate.issuedAt) }}</strong>
     </article>
   </div>
