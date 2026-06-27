@@ -1,6 +1,7 @@
 <section class="section-stack">
   <div class="hero-panel card-panel home-hero">
-    <div>
+    <div class="hero-copy">
+      <span class="eyebrow">Fluxo completo</span>
       <h1 class="hero-title">{{ heroTitle }}</h1>
       <p class="hero-subtitle">{{ heroSubtitle }}</p>
 
@@ -10,12 +11,16 @@
         <a *ngIf="isParticipant" routerLink="/minhas-inscricoes" class="btn btn-outline-secondary">Ver inscrições</a>
         <a *ngIf="isStaff" routerLink="/painel" class="btn btn-outline-secondary">Painel</a>
       </div>
+
+      <p class="hero-footnote">Tudo organizado para acompanhar eventos, presença e certificados sem perder o contexto.</p>
     </div>
 
     <div *ngIf="!loading && homeStats.length > 0" class="hero-aside">
       <article class="hero-stat" *ngFor="let stat of homeStats; trackBy: trackByStatLabel">
-        <span>{{ stat.label }}</span>
-        <strong>{{ stat.value }}</strong>
+        <div class="hero-stat-heading">
+          <span>{{ stat.label }}</span>
+          <strong>{{ stat.value }}</strong>
+        </div>
         <small>{{ stat.hint }}</small>
       </article>
     </div>
@@ -57,6 +62,7 @@
             <dd>{{ event.location }}</dd>
           </div>
         </dl>
+        <a routerLink="/eventos" class="text-link">Abrir agenda completa</a>
       </article>
     </div>
   </section>

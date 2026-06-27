@@ -13,9 +13,13 @@
 
   <div *ngIf="!loading && certificates.length > 0" class="certificate-grid">
     <article class="card-panel certificate-card" *ngFor="let certificate of certificates; trackBy: trackByCertificateId">
+      <span class="certificate-badge">Certificado emitido</span>
       <h2>{{ certificate.eventTitle }}</h2>
-      <p>Certificado disponível.</p>
-      <strong>{{ formatDateTime(certificate.issuedAt) }}</strong>
+      <p>Disponível para consulta e compartilhamento após a confirmação da presença.</p>
+      <div class="certificate-meta">
+        <span class="muted-line">Emitido em</span>
+        <strong>{{ formatDateTime(certificate.issuedAt) }}</strong>
+      </div>
     </article>
   </div>
 </section>

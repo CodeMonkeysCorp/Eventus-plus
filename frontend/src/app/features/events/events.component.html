@@ -11,13 +11,15 @@
   <div *ngIf="!loading && visibleEvents.length > 0" class="catalog-summary card-panel">
     <div class="catalog-summary-copy">
       <strong>{{ visibleEvents.length }}</strong>
-      <span>evento{{ visibleEvents.length === 1 ? '' : 's' }}</span>
+      <span>evento{{ visibleEvents.length === 1 ? '' : 's' }} disponível{{ visibleEvents.length === 1 ? '' : 's' }}</span>
     </div>
-    <span *ngIf="isParticipant" class="summary-copy">
-      {{ registeredEventIds.size }}
-      {{ registeredEventIds.size === 1 ? 'inscrição' : 'inscrições' }}
-    </span>
-    <a *ngIf="!isAuthenticated" routerLink="/register" class="btn btn-sm btn-sand">Criar conta</a>
+    <div class="catalog-summary-actions">
+      <span *ngIf="isParticipant" class="summary-copy">
+        {{ registeredEventIds.size }}
+        {{ registeredEventIds.size === 1 ? 'inscrição' : 'inscrições' }} confirmadas
+      </span>
+      <a *ngIf="!isAuthenticated" routerLink="/register" class="btn btn-sm btn-sand">Criar conta</a>
+    </div>
   </div>
 
   <div *ngIf="!loading && visibleEvents.length === 0" class="empty-state">
@@ -32,8 +34,10 @@
           <span class="event-capacity">{{ event.registeredCount }}/{{ event.capacity }} inscritos</span>
         </div>
 
-        <h2>{{ event.title }}</h2>
-        <p *ngIf="event.description">{{ event.description }}</p>
+        <div class="event-heading">
+          <h2>{{ event.title }}</h2>
+          <p *ngIf="event.description" class="event-description">{{ event.description }}</p>
+        </div>
 
         <div class="details-grid">
           <div>
@@ -57,7 +61,10 @@
 
       <div class="event-side">
         <div class="event-cta">
-          <span *ngIf="registeredEventIds.has(event.id)" class="status-pill is-checked-in">Inscrição confirmada</span>
+          <div class="cta-headline">
+            <span class="eyebrow">{{ event.availableSpots }} vagas</span>
+            <span *ngIf="registeredEventIds.has(event.id)" class="status-pill is-checked-in">Inscrição confirmada</span>
+          </div>
           <button
             *ngIf="canRegister(event)"
             type="button"
