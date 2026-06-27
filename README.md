@@ -1,119 +1,221 @@
 # Eventus Plus
 
-Sistema web para gerenciamento de eventos acadêmicos fictícios, com inscrição,
-check-in, certificados fictícios e logs de auditoria.
+Sistema web para gestão de eventos, com login, perfis de acesso, inscrições, check-in, relatórios e auditoria.
 
-## Projeto
-
-- Código do projeto: `P09-A`
-- Tema: `Eventos: inscrição e presença`
-- Repositório: `https://github.com/CodeMonkeysCorp/eventus-plus`
-
-## Integrantes
-
-- Jose Henrique Bruhmuller
-- Matheus Busemayer
-- Andre Schultz
-- Lucas Monich Nunes
-
-## Stack Prevista
+## Stack
 
 - Frontend: Angular
 - Backend: Spring Boot com Java 17
-- Banco de dados: MySQL
-- Controle de versão: GitHub
-- Segurança: autenticação com login e senha, hash de senha, autorização por
-  perfil, validação no back-end, proteção de variáveis de ambiente e logs de
-  auditoria
+- Banco de dados: MySQL 8
+- Segurança: JWT, BCrypt, autorização por perfil, auditoria e variáveis de ambiente
 
-## Perfis de Usuário
+## Requisitos
 
-- Participante: cria conta, visualiza eventos, realiza inscrições, consulta as
-  próprias inscrições, verifica presença e acessa certificados fictícios quando
-  aplicável
-- Operador: acompanha inscrições, realiza check-in, valida presença e atualiza
-  status de participação em eventos
-- Administrador: gerencia eventos, usuários, perfis, inscrições, relatórios e
-  logs de auditoria
+### Caminho recomendado
 
-## Usuários de Demonstração
+- Docker Desktop
+- PowerShell, Terminal ou outro shell com Docker disponível
 
-Quando a stack local é iniciada com `compose.yaml`, o backend cria estes
-usuários automaticamente se eles ainda não existirem no banco:
+### Execução manual
 
-- Administrador: `admin@eventusplus.local` / `change_me_admin`
-- Operador: `operador@eventusplus.local` / `change_me_operator`
-- Participante: `participante@eventusplus.local` / `change_me_participant`
+- Java 17
+- Maven 3.9+
+- Node.js 20+
+- MySQL 8
 
-Os valores podem ser alterados no arquivo `.env` a partir do modelo
-`.env.example`.
+## Configuração do ambiente
 
-## Funcionalidades Mínimas Previstas
+1. Crie seu arquivo local de ambiente a partir do modelo:
 
-- Cadastro e autenticação de usuários
-- Controle de acesso por perfil
-- CRUD de eventos
-- Inscrição de participantes em eventos
-- Consulta das próprias inscrições pelo participante
-- Check-in de presença por operador ou administrador
-- Registro de certificado fictício para participantes presentes
-- Consulta administrativa de inscrições e presenças
-- Geração de relatórios de eventos, inscrições e presença
-- Logs de auditoria para login, criação e edição de eventos, inscrição,
-  check-in, ações administrativas e tentativas de acesso negado
-- Validação dos dados no back-end
-- Uso de `.env.example` e proteção de credenciais fora do GitHub
+```powershell
+Copy-Item .env.example .env
+```
 
-## Docker Local
+ou
 
-O projeto agora possui o mesmo setup Docker do `Reserva-plus`, com:
+```bash
+cp .env.example .env
+```
 
-- `compose.yaml` para desenvolvimento local
-- `compose.prod.yaml` para deploy com imagens prontas
-- `run-local.ps1` e `stop-local.ps1` para subir e derrubar a stack no Windows
-- `scripts/init-prod-env.{ps1,sh}` para gerar `.env.prod`
-- `scripts/deploy-prod.{ps1,sh}` para subir a stack de produção
+2. Ajuste os valores se necessário, principalmente:
 
-### Comandos principais
+- `JWT_SECRET`
+- `MYSQL_PASSWORD`
+- `MYSQL_ROOT_PASSWORD`
+- portas, caso alguma já esteja em uso
+
+3. O arquivo `.env` fica fora do GitHub e deve permanecer local.
+
+## Subir com Docker
+
+Esse é o jeito mais rápido de rodar o projeto inteiro.
+
+### Windows PowerShell
+
+```powershell
+.\run-local.ps1 -Build
+```
+
+Comandos úteis:
 
 ```powershell
 .\run-local.ps1
 .\run-local.ps1 -Build
 .\run-local.ps1 -BackendOnly
+.\run-local.ps1 -FrontendOnly
 .\run-local.ps1 -DatabaseOnly
 .\stop-local.ps1
+.\stop-local.ps1 -RemoveVolumes
 ```
 
-No desenvolvimento local, o `eventus-plus` possui seu próprio MySQL no
-`compose.yaml`, publicado por padrão na porta `3307`. Assim ele fica isolado
-do `reserva-plus`, que pode continuar usando a porta `3306`.
+### Sem script
 
-Após subir a stack completa, as URLs padrão ficam assim:
+```bash
+docker compose up -d --build
+```
+
+Para parar:
+
+```bash
+docker compose down
+```
+
+Para apagar também o banco local e recriar os usuários bootstrap:
+
+```bash
+docker compose down -v
+```
+
+### Portas padrão com Docker
 
 - Frontend: `http://localhost:4201`
 - Backend: `http://localhost:8081`
 - API: `http://localhost:8081/api`
+- MySQL: `127.0.0.1:3307`
 
-## Fluxo de Demonstração
+## Execução manual
 
-Sugestão de roteiro para a entrega obrigatória:
+Use esse caminho se quiser rodar frontend e backend fora do Docker.
 
-1. Subir a stack com `.\run-local.ps1 -Build`.
-2. Entrar com o usuário administrador e criar/editar/remover um evento no
-   CRUD principal.
-3. Entrar com o participante e fazer uma inscrição.
-4. Entrar com o operador e confirmar o check-in da inscrição.
-5. Mostrar que o participante não consegue acessar o gerenciamento de eventos
-   e recebe bloqueio por permissão.
-6. Voltar ao administrador e abrir a tela de auditoria para exibir logs de
-   cadastro, login, CRUD, inscrição, check-in e acesso negado.
+### 1. Banco de dados
 
-## Segurança Implementada
+Você pode:
 
-- Autenticação com JWT e login por email/senha
-- Senhas armazenadas com hash BCrypt
-- Perfis `ADMIN`, `OPERATOR` e `PARTICIPANT`
-- Autorização no backend com `@PreAuthorize` e no frontend com guards
-- Persistência MySQL com migração versionada via Flyway
-- Logs de auditoria para cadastro, login, CRUD de eventos, inscrição, check-in
-  e tentativas de acesso negado
+- subir apenas o MySQL pelo script:
+
+```powershell
+.\run-local.ps1 -DatabaseOnly
+```
+
+- ou usar uma instância própria de MySQL 8 e ajustar o `.env`
+
+Valores padrão esperados pelo backend:
+
+- host: `127.0.0.1`
+- porta: `3307`
+- banco: `eventus_plus`
+- usuário: `eventus_app`
+
+### 2. Backend
+
+```powershell
+cd backend
+mvn spring-boot:run
+```
+
+URL padrão:
+
+- Backend: `http://localhost:8081`
+
+### 3. Frontend
+
+```powershell
+cd frontend
+npm ci
+npm start
+```
+
+URL padrão:
+
+- Frontend: `http://localhost:4200`
+
+No modo manual, o frontend usa `proxy.conf.json`, então as chamadas para `/api` são encaminhadas para `http://localhost:8081`.
+
+## Usuários padrão
+
+Quando o backend sobe com o banco vazio, ele cria automaticamente estes usuários bootstrap:
+
+| Perfil | Nome | E-mail | Senha |
+| --- | --- | --- | --- |
+| Administrador | `Administrador Local` | `admin@eventusplus.local` | `change_me_admin` |
+| Operador | `Operador Local` | `operador@eventusplus.local` | `change_me_operator` |
+| Participante | `Participante Local` | `participante@eventusplus.local` | `change_me_participant` |
+
+Esses valores vêm do `.env` e podem ser alterados antes da primeira subida.
+
+### Importante sobre bootstrap
+
+Os usuários bootstrap são criados somente se ainda não existirem no banco.
+
+Se você mudar os e-mails ou senhas no `.env` depois que o banco já foi criado, os usuários antigos continuam no banco. Para recriar tudo do zero:
+
+```powershell
+.\stop-local.ps1 -RemoveVolumes
+.\run-local.ps1 -Build
+```
+
+ou
+
+```bash
+docker compose down -v
+docker compose up -d --build
+```
+
+## Perfis de acesso
+
+- `PARTICIPANT`: agenda, inscrições, certificados e ações do próprio usuário
+- `OPERATOR`: fila de check-in e operação de presenças
+- `ADMIN`: gestão de eventos, usuários, relatórios e auditoria
+
+## Comandos de validação
+
+### Backend
+
+```powershell
+cd backend
+mvn test
+```
+
+### Frontend
+
+```powershell
+cd frontend
+npm run build
+```
+
+## Estrutura principal
+
+- `frontend/`: aplicação Angular
+- `backend/`: API Spring Boot
+- `compose.yaml`: stack local
+- `compose.prod.yaml`: stack de produção com imagens prontas
+- `.env.example`: modelo de configuração local
+- `.env.prod.example`: modelo de configuração de produção
+
+## Entrega
+
+O projeto cobre os pontos principais da entrega:
+
+- sistema executável localmente
+- login funcionando
+- usuários de teste
+- três perfis de acesso
+- CRUD principal
+- persistência em banco
+- senhas com hash
+- autorização por perfil
+- exemplo de bloqueio por falta de permissão
+- auditoria
+- `.env.example`
+- `.env` fora do Git
+- README com instruções de execução
