@@ -38,3 +38,9 @@ app:
     admin-name: ${ADMIN_NAME:}
     admin-email: ${ADMIN_EMAIL:}
     admin-password: ${ADMIN_PASSWORD:}
+    operator-name: ${OPERATOR_NAME:}
+    operator-email: ${OPERATOR_EMAIL:}
+    operator-password: ${OPERATOR_PASSWORD:}
+    participant-name: ${PARTICIPANT_NAME:}
+    participant-email: ${PARTICIPANT_EMAIL:}
+    participant-password: ${PARTICIPANT_PASSWORD:}

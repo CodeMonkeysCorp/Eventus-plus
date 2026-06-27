@@ -1,6 +1,7 @@
 package com.eventusplus.security;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,5 +55,56 @@ class AuthControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").isNotEmpty())
                 .andExpect(jsonPath("$.user.role").value("ADMIN"));
+    }
+
+    @Test
+    void shouldLoginBootstrapOperator() throws Exception {
+        String payload = """
+                {
+                  "email": "operator@test.local",
+                  "password": "Operator123!"
+                }
+                """;
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(payload))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").isNotEmpty())
+                .andExpect(jsonPath("$.user.role").value("OPERATOR"));
+    }
+
+    @Test
+    void shouldLoginBootstrapParticipant() throws Exception {
+        String payload = """
+                {
+                  "email": "participant@test.local",
+                  "password": "Participant123!"
+                }
+                """;
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(payload))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").isNotEmpty())
+                .andExpect(jsonPath("$.user.role").value("PARTICIPANT"));
+    }
+
+    @Test
+    void shouldReturnUtf8ErrorMessageWhenCredentialsAreInvalid() throws Exception {
+        String payload = """
+                {
+                  "email": "admin@test.local",
+                  "password": "senha-invalida"
+                }
+                """;
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(payload))
+                .andExpect(status().isUnauthorized())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("E-mail ou senha inválidos."));
     }
 }

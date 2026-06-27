@@ -9,9 +9,27 @@
   padding: 1.35rem;
 }
 
+.form-card {
+  position: relative;
+  z-index: 2;
+  overflow: visible;
+}
+
+.list-card {
+  position: relative;
+  z-index: 1;
+}
+
 .event-form {
   display: grid;
   gap: 1rem;
+}
+
+.description-field {
+  height: 8rem;
+  min-height: 8rem;
+  resize: none;
+  overflow-y: auto;
 }
 
 .form-grid {
@@ -20,10 +38,41 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.form-grid-dates {
+  grid-template-columns: 1fr;
+}
+
+.events-table {
+  min-width: 760px;
+}
+
+.event-name-cell {
+  min-width: 15rem;
+}
+
+.event-title {
+  display: block;
+}
+
+.event-location {
+  margin-top: 0.15rem;
+}
+
+.event-start-cell {
+  min-width: 10rem;
+}
+
+.events-actions-heading {
+  width: 1%;
+  text-align: right;
+}
+
 .actions-cell {
+  width: 1%;
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
+  white-space: nowrap;
 }
 
 @media (max-width: 980px) {

@@ -1,94 +1,40 @@
 .auth-layout {
-  display: grid;
-  gap: 1.25rem;
-  grid-template-columns: minmax(280px, 0.95fr) minmax(320px, 1.05fr);
-  align-items: stretch;
-}
-
-.auth-side,
-.auth-card {
-  padding: 1.75rem;
-}
-
-.auth-side {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background:
-    radial-gradient(circle at top right, rgba(216, 138, 46, 0.24), transparent 24%),
-    linear-gradient(160deg, rgba(var(--brand-rgb), 0.11), rgba(255, 255, 255, 0.96));
-}
-
-.auth-side-body {
-  display: grid;
-  gap: 0.9rem;
-  max-width: 30rem;
-}
-
-.auth-kicker {
-  margin: 0;
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--brand-ink);
-}
-
-.auth-side h1,
-.auth-card h2 {
-  margin: 0;
-  font-family: "Space Grotesk", "Segoe UI", sans-serif;
-  letter-spacing: -0.05em;
-}
-
-.auth-side h1 {
-  font-size: clamp(2.1rem, 3vw, 3rem);
-  line-height: 0.96;
-}
-
-.auth-side p,
-.auth-copy,
-.auth-footnote,
-.auth-side-link span {
-  color: var(--muted);
-}
-
-.auth-side-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 2rem;
-  align-self: flex-start;
-  padding: 0.75rem 0.9rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(34, 30, 26, 0.08);
-}
-
-.auth-side-link a,
-.auth-footnote a {
-  color: var(--brand);
-  font-weight: 700;
-}
-
-.auth-card {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.88);
+}
+
+.auth-card {
+  width: min(100%, 560px);
+  padding: clamp(1.4rem, 2vw, 2rem);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.auth-card-compact {
+  max-width: 560px;
+}
+
+.auth-card {
+  display: flex;
+  flex-direction: column;
 }
 
 .auth-card-header {
-  margin-bottom: 1.25rem;
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 1.4rem;
 }
 
-.auth-card h2 {
-  margin-top: 0.9rem;
-  font-size: clamp(1.8rem, 2vw, 2.2rem);
+.auth-card h1 {
+  margin: 0;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  font-size: clamp(2rem, 3vw, 2.6rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
 }
 
 .auth-copy {
-  margin: 0.5rem 0 0;
+  margin: 0;
+  color: var(--muted);
 }
 
 .auth-form {
@@ -101,24 +47,26 @@
   gap: 0.45rem;
 }
 
-.field-label-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
-
 .password-field {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 0.65rem;
-  align-items: start;
+  align-items: center;
+}
+
+.password-field .form-control {
+  min-width: 0;
 }
 
 .toggle-button {
-  min-width: 92px;
+  min-width: 108px;
   min-height: 3.35rem;
+  padding-inline: 1rem;
   border-radius: 16px;
+}
+
+.auth-footnote {
+  color: var(--muted);
 }
 
 .field-error {
@@ -134,22 +82,31 @@
 
 .auth-submit {
   min-height: 3.35rem;
-  margin-top: 0.2rem;
+  margin-top: 0.35rem;
   font-weight: 700;
 }
 
 .auth-footnote {
-  margin: 1.25rem 0 0;
+  margin: 1.4rem 0 0;
   padding-top: 1rem;
   border-top: 1px solid rgba(34, 30, 26, 0.08);
 }
 
-@media (max-width: 860px) {
-  .auth-layout {
+.auth-footnote a {
+  color: var(--brand);
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .auth-card {
+    padding: 1.2rem;
+  }
+
+  .password-field {
     grid-template-columns: 1fr;
   }
 
-  .auth-side-link {
-    margin-top: 1.5rem;
+  .toggle-button {
+    width: 100%;
   }
 }

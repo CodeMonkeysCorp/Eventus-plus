@@ -6,6 +6,7 @@ import { participantGuard } from './core/guards/participant.guard';
 import { staffGuard } from './core/guards/staff.guard';
 import { AdminDashboardComponent } from './features/admin/dashboard.component';
 import { AdminEventsComponent } from './features/admin/events-admin.component';
+import { AdminUsersComponent } from './features/admin/users-admin.component';
 import { AttendanceComponent } from './features/attendance/attendance.component';
 import { AuditComponent } from './features/audit/audit.component';
 import { LoginComponent } from './features/auth/login.component';
@@ -26,6 +27,7 @@ export const routes: Routes = [
   { path: 'certificados', component: CertificatesComponent, canActivate: [authGuard, participantGuard] },
   { path: 'painel', component: AdminDashboardComponent, canActivate: [authGuard, staffGuard] },
   { path: 'gerenciar-eventos', component: AdminEventsComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'usuarios', component: AdminUsersComponent, canActivate: [authGuard, adminGuard] },
   { path: 'presencas', component: AttendanceComponent, canActivate: [authGuard, staffGuard] },
   { path: 'relatorios', component: ReportsComponent, canActivate: [authGuard, adminGuard] },
   { path: 'auditoria', component: AuditComponent, canActivate: [authGuard, adminGuard] },

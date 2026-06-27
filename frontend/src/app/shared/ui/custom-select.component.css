@@ -1,0 +1,118 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.select-shell {
+  position: relative;
+}
+
+.select-trigger {
+  width: 100%;
+  min-height: 3.35rem;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem;
+  border-radius: 16px;
+  border: 1px solid rgba(34, 30, 26, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text);
+  text-align: left;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.select-trigger:hover:not(:disabled) {
+  border-color: rgba(var(--brand-rgb), 0.28);
+}
+
+.select-trigger:focus-visible {
+  outline: none;
+  border-color: var(--border-strong);
+  box-shadow: 0 0 0 0.23rem rgba(var(--brand-rgb), 0.12);
+}
+
+.select-trigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.68;
+}
+
+.select-value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.select-value.is-placeholder {
+  color: var(--muted);
+}
+
+.select-chevron {
+  width: 0.7rem;
+  height: 0.7rem;
+  flex: 0 0 auto;
+  border-right: 2px solid rgba(34, 30, 26, 0.55);
+  border-bottom: 2px solid rgba(34, 30, 26, 0.55);
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+.select-shell.is-open .select-chevron {
+  transform: rotate(-135deg) translateY(-1px);
+}
+
+.select-panel {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  left: 0;
+  right: 0;
+  z-index: 70;
+  padding: 0.45rem;
+  display: grid;
+  gap: 0.2rem;
+  max-height: 16rem;
+  overflow-y: auto;
+  border-radius: 18px;
+  border: 1px solid rgba(34, 30, 26, 0.1);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 18px 40px rgba(36, 28, 20, 0.16);
+  backdrop-filter: blur(12px);
+}
+
+.select-option {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  display: grid;
+  gap: 0.15rem;
+  border: none;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+}
+
+.select-option small {
+  color: var(--muted);
+}
+
+.select-option:hover:not(:disabled),
+.select-option.is-selected {
+  background: rgba(var(--brand-rgb), 0.1);
+}
+
+.select-option.is-selected {
+  color: var(--brand-deep);
+  font-weight: 700;
+}
+
+.select-option:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.select-shell.is-invalid .select-trigger {
+  border-color: rgba(194, 72, 65, 0.34);
+  background: rgba(194, 72, 65, 0.04);
+}

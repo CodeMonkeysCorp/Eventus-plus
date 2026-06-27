@@ -1,8 +1,7 @@
 <section class="section-stack">
   <div class="hero-panel card-panel">
-    <span class="eyebrow">Certificados</span>
-    <h1 class="hero-title">Seus certificados ficam disponíveis depois da confirmação de presença.</h1>
-    <p class="hero-subtitle">Consulte as emissões já liberadas para cada evento.</p>
+    <h1 class="hero-title">Certificados</h1>
+    <p class="hero-subtitle">Emissões liberadas após check-in.</p>
   </div>
 
   <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
@@ -14,9 +13,8 @@
 
   <div *ngIf="!loading && certificates.length > 0" class="certificate-grid">
     <article class="card-panel certificate-card" *ngFor="let certificate of certificates; trackBy: trackByCertificateId">
-      <span class="eyebrow">Emitido</span>
       <h2>{{ certificate.eventTitle }}</h2>
-      <p>Participação confirmada e pronta para consulta.</p>
+      <p>Certificado disponível.</p>
       <strong>{{ formatDateTime(certificate.issuedAt) }}</strong>
     </article>
   </div>

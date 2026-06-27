@@ -1,8 +1,7 @@
 <section class="section-stack">
   <div class="hero-panel card-panel">
-    <span class="eyebrow">Agenda</span>
-    <h1 class="hero-title">Crie, atualize e publique os eventos.</h1>
-    <p class="hero-subtitle">Mantenha datas, vagas e status organizados em um só lugar.</p>
+    <h1 class="hero-title">Gestão de eventos</h1>
+    <p class="hero-subtitle">Agenda, vagas e publicação.</p>
   </div>
 
   <div *ngIf="successMessage" class="feedback-success">{{ successMessage }}</div>
@@ -13,7 +12,7 @@
       <div class="section-heading">
         <div>
           <h2 class="section-title">{{ isEditing ? 'Editar evento' : 'Novo evento' }}</h2>
-          <p class="section-subtitle">Preencha os dados principais da agenda.</p>
+          <p class="section-subtitle">Dados principais do evento.</p>
         </div>
       </div>
 
@@ -25,7 +24,7 @@
 
         <div>
           <label class="form-label" for="description">Descrição</label>
-          <textarea id="description" class="form-control" formControlName="description"></textarea>
+          <textarea id="description" class="form-control description-field" formControlName="description"></textarea>
         </div>
 
         <div>
@@ -33,15 +32,23 @@
           <input id="location" class="form-control" type="text" formControlName="location">
         </div>
 
-        <div class="form-grid">
+        <div class="form-grid form-grid-dates">
           <div>
             <label class="form-label" for="startsAt">Início</label>
-            <input id="startsAt" class="form-control" type="datetime-local" formControlName="startsAt">
+            <app-custom-date-time-field
+              inputId="startsAt"
+              formControlName="startsAt"
+              [placeholder]="'Selecione início'">
+            </app-custom-date-time-field>
           </div>
 
           <div>
             <label class="form-label" for="endsAt">Fim</label>
-            <input id="endsAt" class="form-control" type="datetime-local" formControlName="endsAt">
+            <app-custom-date-time-field
+              inputId="endsAt"
+              formControlName="endsAt"
+              [placeholder]="'Selecione fim'">
+            </app-custom-date-time-field>
           </div>
         </div>
 
@@ -53,9 +60,11 @@
 
           <div>
             <label class="form-label" for="status">Status</label>
-            <select id="status" class="form-select" formControlName="status">
-              <option *ngFor="let status of statusOptions" [value]="status">{{ eventStatusLabel(status) }}</option>
-            </select>
+            <app-custom-select
+              inputId="status"
+              formControlName="status"
+              [options]="statusSelectOptions">
+            </app-custom-select>
           </div>
         </div>
 
@@ -71,8 +80,8 @@
     <section class="card-panel list-card">
       <div class="section-heading">
         <div>
-          <h2 class="section-title">Agenda cadastrada</h2>
-          <p class="section-subtitle">Consulte, edite ou remova os eventos já criados.</p>
+          <h2 class="section-title">Eventos</h2>
+          <p class="section-subtitle">Consulta e edição.</p>
         </div>
       </div>
 
@@ -80,28 +89,28 @@
       <div *ngIf="!loading && events.length === 0" class="empty-state">Nenhum evento cadastrado até agora.</div>
 
       <div *ngIf="!loading && events.length > 0" class="table-wrap">
-        <table class="table align-middle mb-0">
+        <table class="table align-middle mb-0 events-table">
           <thead>
             <tr>
               <th>Evento</th>
               <th>Status</th>
               <th>Início</th>
               <th>Vagas</th>
-              <th></th>
+              <th class="events-actions-heading">Ações</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let event of events; trackBy: trackByEventId">
-              <td>
-                <strong>{{ event.title }}</strong>
-                <div class="muted-line">{{ event.location }}</div>
+              <td class="event-name-cell">
+                <strong class="event-title">{{ event.title }}</strong>
+                <div class="muted-line event-location">{{ event.location }}</div>
               </td>
               <td>
                 <span class="status-pill" [ngClass]="statusClass(event.status)">
                   {{ eventStatusLabel(event.status) }}
                 </span>
               </td>
-              <td>{{ formatDateTime(event.startsAt) }}</td>
+              <td class="event-start-cell">{{ formatDateTime(event.startsAt) }}</td>
               <td>{{ event.registeredCount }}/{{ event.capacity }}</td>
               <td class="actions-cell">
                 <button type="button" class="btn btn-sm btn-outline-secondary" (click)="edit(event)">Editar</button>

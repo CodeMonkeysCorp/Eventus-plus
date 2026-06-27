@@ -31,16 +31,12 @@ export class AttendanceComponent implements OnInit {
   }
 
   get filteredRegistrations(): RegistrationResponse[] {
-    const normalizedQuery = this.query.trim().toLowerCase();
+    const normalizedQuery = normalizeSearch(this.query);
     if (!normalizedQuery) {
       return this.registrations;
     }
 
-    return this.registrations.filter((registration) =>
-      registration.eventTitle.toLowerCase().includes(normalizedQuery) ||
-      registration.participantName.toLowerCase().includes(normalizedQuery) ||
-      registration.participantEmail.toLowerCase().includes(normalizedQuery)
-    );
+    return this.registrations.filter((registration) => searchableRegistrationText(registration).includes(normalizedQuery));
   }
 
   get pendingCount(): number {
@@ -106,4 +102,24 @@ export class AttendanceComponent implements OnInit {
       }
     });
   }
+}
+
+function normalizeSearch(value: string): string {
+  return value
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .trim()
+    .toLowerCase();
+}
+
+function searchableRegistrationText(registration: RegistrationResponse): string {
+  return normalizeSearch([
+    registration.participantName,
+    registration.participantEmail,
+    registration.eventTitle,
+    registrationStatusLabel(registration.status),
+    formatDateTime(registration.registeredAt),
+    formatDateTime(registration.checkedInAt),
+    formatDateTime(registration.certificateIssuedAt)
+  ].join(' '));
 }

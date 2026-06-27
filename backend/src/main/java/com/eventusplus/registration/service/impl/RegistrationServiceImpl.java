@@ -8,11 +8,11 @@ import com.eventusplus.common.exception.ResourceNotFoundException;
 import com.eventusplus.event.model.AcademicEvent;
 import com.eventusplus.event.model.EventStatus;
 import com.eventusplus.event.repository.AcademicEventRepository;
-import com.eventusplus.registration.model.EventRegistration;
 import com.eventusplus.registration.dto.RegistrationResponse;
+import com.eventusplus.registration.model.EventRegistration;
+import com.eventusplus.registration.model.RegistrationStatus;
 import com.eventusplus.registration.repository.EventRegistrationRepository;
 import com.eventusplus.registration.service.RegistrationService;
-import com.eventusplus.registration.model.RegistrationStatus;
 import com.eventusplus.security.model.UserPrincipal;
 import com.eventusplus.user.model.UserAccount;
 import com.eventusplus.user.repository.UserRepository;
@@ -45,18 +45,18 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Transactional
     public RegistrationResponse registerForEvent(Long eventId, UserPrincipal principal, String ipAddress) {
         UserAccount participant = userRepository.findById(principal.id())
-                .orElseThrow(() -> new ResourceNotFoundException("UsuÃ¡rio nÃ£o encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
         AcademicEvent event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new ResourceNotFoundException("Evento nÃ£o encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Evento não encontrado."));
 
         if (event.getStatus() != EventStatus.PUBLISHED) {
-            throw new ConflictException("Apenas eventos publicados podem receber inscriÃ§Ãµes.");
+            throw new ConflictException("Apenas eventos publicados podem receber inscrições.");
         }
         if (registrationRepository.existsByEventIdAndParticipantId(eventId, participant.getId())) {
-            throw new ConflictException("O participante jÃ¡ estÃ¡ inscrito neste evento.");
+            throw new ConflictException("O participante já está inscrito neste evento.");
         }
         if (registrationRepository.countByEventId(eventId) >= event.getCapacity()) {
-            throw new ConflictException("NÃ£o hÃ¡ mais vagas disponÃ­veis para este evento.");
+            throw new ConflictException("Não há mais vagas disponíveis para este evento.");
         }
 
         EventRegistration registration = new EventRegistration();
@@ -71,7 +71,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                 AuditAction.REGISTRATION_CREATED,
                 "REGISTRATION",
                 savedRegistration.getId().toString(),
-                "InscriÃ§Ã£o criada no evento " + event.getTitle(),
+                "Inscrição criada no evento " + event.getTitle(),
                 ipAddress
         );
         return RegistrationResponse.from(savedRegistration);
@@ -99,12 +99,12 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Transactional
     public RegistrationResponse checkIn(Long registrationId, UserPrincipal principal, String ipAddress) {
         EventRegistration registration = registrationRepository.findById(registrationId)
-                .orElseThrow(() -> new ResourceNotFoundException("InscriÃ§Ã£o nÃ£o encontrada."));
+                .orElseThrow(() -> new ResourceNotFoundException("Inscrição não encontrada."));
         UserAccount operator = userRepository.findById(principal.id())
-                .orElseThrow(() -> new ResourceNotFoundException("UsuÃ¡rio nÃ£o encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
 
         if (registration.getStatus() == RegistrationStatus.CHECKED_IN) {
-            throw new ConflictException("O participante jÃ¡ realizou check-in.");
+            throw new ConflictException("O participante já realizou check-in.");
         }
         if (registration.getEvent().getStatus() != EventStatus.PUBLISHED) {
             throw new ConflictException("Check-in permitido apenas para eventos publicados.");

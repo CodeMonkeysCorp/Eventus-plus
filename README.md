@@ -36,6 +36,18 @@ check-in, certificados fictícios e logs de auditoria.
 - Administrador: gerencia eventos, usuários, perfis, inscrições, relatórios e
   logs de auditoria
 
+## Usuários de Demonstração
+
+Quando a stack local é iniciada com `compose.yaml`, o backend cria estes
+usuários automaticamente se eles ainda não existirem no banco:
+
+- Administrador: `admin@eventusplus.local` / `change_me_admin`
+- Operador: `operador@eventusplus.local` / `change_me_operator`
+- Participante: `participante@eventusplus.local` / `change_me_participant`
+
+Os valores podem ser alterados no arquivo `.env` a partir do modelo
+`.env.example`.
+
 ## Funcionalidades Mínimas Previstas
 
 - Cadastro e autenticação de usuários
@@ -51,46 +63,6 @@ check-in, certificados fictícios e logs de auditoria.
   check-in, ações administrativas e tentativas de acesso negado
 - Validação dos dados no back-end
 - Uso de `.env.example` e proteção de credenciais fora do GitHub
-
-## Estrutura Inicial
-
-```text
-backend/
-  src/
-    main/
-      java/com/eventusplus/
-        audit/
-        attendance/
-        certificate/
-        common/
-        config/
-        event/
-        registration/
-        report/
-        security/
-        user/
-      resources/
-        db/migration/
-    test/
-      java/com/eventusplus/
-frontend/
-  src/
-    app/
-      core/
-      features/
-      shared/
-    assets/
-    environments/
-docs/
-  api/
-  checkpoints/
-  diagramas/
-  evidencias/
-  modelagem/
-  relatorio-tecnico/
-  seguranca/
-scripts/
-```
 
 ## Docker Local
 
@@ -116,15 +88,32 @@ No desenvolvimento local, o `eventus-plus` possui seu próprio MySQL no
 `compose.yaml`, publicado por padrão na porta `3307`. Assim ele fica isolado
 do `reserva-plus`, que pode continuar usando a porta `3306`.
 
-## Diretriz de Texto
+Após subir a stack completa, as URLs padrão ficam assim:
 
-O projeto passa a adotar **UTF-8** como padrão para arquivos de texto e
-acentuação normal em conteúdos em português. A diretriz completa está em
-[docs/diretrizes-utf8.md](docs/diretrizes-utf8.md).
+- Frontend: `http://localhost:4201`
+- Backend: `http://localhost:8081`
+- API: `http://localhost:8081/api`
 
-## Próximos Passos
+## Fluxo de Demonstração
 
-1. Evoluir as telas do frontend com mais refinamento de UX.
-2. Integrar frontend e backend usando os endpoints já disponíveis.
-3. Definir matriz de permissões, entidades e endpoints complementares.
-4. Usar `docs/` para checkpoints, evidências e relatório técnico.
+Sugestão de roteiro para a entrega obrigatória:
+
+1. Subir a stack com `.\run-local.ps1 -Build`.
+2. Entrar com o usuário administrador e criar/editar/remover um evento no
+   CRUD principal.
+3. Entrar com o participante e fazer uma inscrição.
+4. Entrar com o operador e confirmar o check-in da inscrição.
+5. Mostrar que o participante não consegue acessar o gerenciamento de eventos
+   e recebe bloqueio por permissão.
+6. Voltar ao administrador e abrir a tela de auditoria para exibir logs de
+   cadastro, login, CRUD, inscrição, check-in e acesso negado.
+
+## Segurança Implementada
+
+- Autenticação com JWT e login por email/senha
+- Senhas armazenadas com hash BCrypt
+- Perfis `ADMIN`, `OPERATOR` e `PARTICIPANT`
+- Autorização no backend com `@PreAuthorize` e no frontend com guards
+- Persistência MySQL com migração versionada via Flyway
+- Logs de auditoria para cadastro, login, CRUD de eventos, inscrição, check-in
+  e tentativas de acesso negado

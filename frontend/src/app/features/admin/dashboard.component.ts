@@ -8,7 +8,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { EventsService } from '../../core/services/events.service';
 import { RegistrationsService } from '../../core/services/registrations.service';
 import { formatDateTime } from '../../shared/utils/date.utils';
-import { eventStatusLabel, roleLabel } from '../../shared/utils/labels.utils';
+import { eventStatusLabel } from '../../shared/utils/labels.utils';
 
 type DashboardStat = {
   label: string;
@@ -61,14 +61,14 @@ export class AdminDashboardComponent implements OnInit {
 
   get dashboardStats(): DashboardStat[] {
     const stats: DashboardStat[] = [
-      { label: 'Eventos publicados', value: this.publishedEvents, hint: 'visíveis para os participantes' },
-      { label: 'Inscrições pendentes', value: this.pendingRegistrations, hint: 'aguardando confirmação de presença' },
-      { label: 'Presenças confirmadas', value: this.checkedInRegistrations, hint: 'já registradas no evento' }
+      { label: 'Eventos publicados', value: this.publishedEvents, hint: 'no ar' },
+      { label: 'Inscrições pendentes', value: this.pendingRegistrations, hint: 'para check-in' },
+      { label: 'Presenças confirmadas', value: this.checkedInRegistrations, hint: 'registradas' }
     ];
 
     if (this.isAdmin) {
       return [
-        { label: 'Eventos totais', value: this.events.length, hint: 'entre rascunhos e publicados' },
+        { label: 'Eventos totais', value: this.events.length, hint: 'cadastro' },
         ...stats
       ];
     }
@@ -88,10 +88,6 @@ export class AdminDashboardComponent implements OnInit {
 
   eventStatusLabel(status: EventResponse['status']): string {
     return eventStatusLabel(status);
-  }
-
-  roleLabel(role: typeof this.currentRole): string {
-    return roleLabel(role);
   }
 
   statusClass(status: string): string {

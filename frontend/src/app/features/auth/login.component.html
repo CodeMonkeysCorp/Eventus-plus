@@ -1,23 +1,8 @@
 <section class="auth-layout">
-  <div class="auth-side card-panel">
-    <div class="auth-side-body">
-      <span class="eyebrow">Eventus+</span>
-      <p class="auth-kicker">Acesso à plataforma</p>
-      <h1>Acesse sua conta.</h1>
-      <p>Entre para acompanhar inscrições, presença e certificados em um só lugar.</p>
-    </div>
-
-    <div class="auth-side-link">
-      <span>Novo por aqui?</span>
-      <a routerLink="/register">Criar conta</a>
-    </div>
-  </div>
-
-  <div class="auth-card card-panel">
+  <div class="auth-card auth-card-compact card-panel">
     <div class="auth-card-header">
-      <span class="eyebrow">Login</span>
-      <h2>Entrar</h2>
-      <p class="auth-copy">Use seu email e senha para continuar.</p>
+      <h1>Entrar</h1>
+      <p class="auth-copy">Use email e senha.</p>
     </div>
 
     <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
@@ -33,7 +18,7 @@
           inputmode="email"
           autocomplete="email"
           formControlName="email"
-          placeholder="voce@empresa.com">
+          placeholder="voce@email.com">
         <small *ngIf="fieldInvalid('email')" class="field-error">{{ fieldError('email') }}</small>
       </div>
 
@@ -63,7 +48,7 @@
     </form>
 
     <p class="auth-footnote">
-      Ainda não tem conta?
+      Novo aqui?
       <a routerLink="/register">Criar conta</a>
     </p>
   </div>

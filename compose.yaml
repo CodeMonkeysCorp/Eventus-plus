@@ -41,6 +41,12 @@ services:
       ADMIN_NAME: ${ADMIN_NAME:-Administrador Local}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@eventusplus.local}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-change_me_admin}
+      OPERATOR_NAME: ${OPERATOR_NAME:-Operador Local}
+      OPERATOR_EMAIL: ${OPERATOR_EMAIL:-operador@eventusplus.local}
+      OPERATOR_PASSWORD: ${OPERATOR_PASSWORD:-change_me_operator}
+      PARTICIPANT_NAME: ${PARTICIPANT_NAME:-Participante Local}
+      PARTICIPANT_EMAIL: ${PARTICIPANT_EMAIL:-participante@eventusplus.local}
+      PARTICIPANT_PASSWORD: ${PARTICIPANT_PASSWORD:-change_me_participant}
       JWT_SECRET: ${JWT_SECRET:-replace_with_a_strong_secret_with_32_chars_or_more}
       JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS:-3600000}
       CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:4201}

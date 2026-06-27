@@ -5,13 +5,15 @@ import { finalize } from 'rxjs';
 import { EventPayload, EventResponse, EventStatus } from '../../core/models';
 import { ApiErrorService } from '../../core/services/api-error.service';
 import { EventsService } from '../../core/services/events.service';
+import { CustomDateTimeFieldComponent } from '../../shared/ui/custom-date-time-field.component';
+import { CustomSelectComponent, CustomSelectOption } from '../../shared/ui/custom-select.component';
 import { formatDateTime, toApiDateTime, toDateTimeLocalValue } from '../../shared/utils/date.utils';
 import { eventStatusLabel } from '../../shared/utils/labels.utils';
 
 @Component({
   selector: 'app-admin-events',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CustomDateTimeFieldComponent, CustomSelectComponent],
   templateUrl: './events-admin.component.html',
   styleUrl: './events-admin.component.css'
 })
@@ -38,6 +40,10 @@ export class AdminEventsComponent implements OnInit {
   events: EventResponse[] = [];
 
   readonly statusOptions: EventStatus[] = ['DRAFT', 'PUBLISHED', 'CLOSED'];
+  readonly statusSelectOptions: CustomSelectOption[] = this.statusOptions.map((status) => ({
+    value: status,
+    label: eventStatusLabel(status)
+  }));
 
   ngOnInit(): void {
     this.loadEvents();

@@ -1,8 +1,7 @@
 <section class="section-stack">
   <div class="hero-panel card-panel">
-    <span class="eyebrow">Eventos</span>
-    <h1 class="hero-title">Encontre o próximo evento e faça sua inscrição.</h1>
-    <p class="hero-subtitle">Acompanhe agenda, vagas e status em um só lugar.</p>
+    <h1 class="hero-title">Agenda</h1>
+    <p class="hero-subtitle">Eventos publicados e abertos para inscrição.</p>
   </div>
 
   <div *ngIf="successMessage" class="feedback-success">{{ successMessage }}</div>
@@ -12,11 +11,11 @@
   <div *ngIf="!loading && visibleEvents.length > 0" class="catalog-summary card-panel">
     <div class="catalog-summary-copy">
       <strong>{{ visibleEvents.length }}</strong>
-      <span>evento{{ visibleEvents.length === 1 ? '' : 's' }} disponível{{ visibleEvents.length === 1 ? '' : 'is' }}</span>
+      <span>evento{{ visibleEvents.length === 1 ? '' : 's' }}</span>
     </div>
     <span *ngIf="isParticipant" class="summary-copy">
       {{ registeredEventIds.size }}
-      {{ registeredEventIds.size === 1 ? 'inscrição já registrada' : 'inscrições já registradas' }}
+      {{ registeredEventIds.size === 1 ? 'inscrição' : 'inscrições' }}
     </span>
     <a *ngIf="!isAuthenticated" routerLink="/register" class="btn btn-sm btn-sand">Criar conta</a>
   </div>
@@ -65,12 +64,12 @@
             class="btn btn-aurora w-100"
             [disabled]="submittingEventId === event.id"
             (click)="register(event)">
-            {{ submittingEventId === event.id ? 'Inscrevendo...' : 'Quero me inscrever' }}
+            {{ submittingEventId === event.id ? 'Inscrevendo...' : 'Inscrever-se' }}
           </button>
 
-          <a *ngIf="!isAuthenticated" routerLink="/login" class="btn btn-outline-secondary w-100">Entrar para se inscrever</a>
-          <span *ngIf="isAuthenticated && !isParticipant" class="helper-copy">Seu perfil pode acompanhar os eventos, mas não realiza inscrições.</span>
-          <span *ngIf="event.availableSpots === 0" class="helper-copy">Evento lotado no momento.</span>
+          <a *ngIf="!isAuthenticated" routerLink="/login" class="btn btn-outline-secondary w-100">Entrar</a>
+          <span *ngIf="isAuthenticated && !isParticipant" class="helper-copy">Inscrição disponível apenas para participantes.</span>
+          <span *ngIf="event.availableSpots === 0" class="helper-copy">Sem vagas no momento.</span>
         </div>
       </div>
     </article>

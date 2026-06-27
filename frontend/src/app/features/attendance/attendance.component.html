@@ -1,8 +1,7 @@
 <section class="section-stack">
   <div class="hero-panel card-panel">
-    <span class="eyebrow">Check-in</span>
-    <h1 class="hero-title">Valide a presença dos participantes no momento do evento.</h1>
-    <p class="hero-subtitle">Busque a inscrição certa e confirme a chegada em poucos passos.</p>
+    <h1 class="hero-title">Check-in</h1>
+    <p class="hero-subtitle">Confirme presença por participante, e-mail ou evento.</p>
   </div>
 
   <div *ngIf="successMessage" class="feedback-success">{{ successMessage }}</div>
@@ -25,12 +24,12 @@
   </div>
 
   <section class="card-panel content-card">
-    <div class="section-heading">
+    <div class="section-heading queue-heading">
       <div>
-        <h2 class="section-title">Confirmações de presença</h2>
-        <p class="section-subtitle">Filtre por participante, e-mail ou evento.</p>
+        <h2 class="section-title">Fila</h2>
+        <p class="section-subtitle">Busca rápida por inscrição.</p>
       </div>
-      <input class="form-control search-field" type="search" [(ngModel)]="query" placeholder="Buscar inscrição...">
+      <input class="form-control search-field" type="search" [(ngModel)]="query" placeholder="Buscar participante, evento, status ou data">
     </div>
 
     <div *ngIf="filteredRegistrations.length === 0" class="empty-state">
@@ -38,37 +37,44 @@
     </div>
 
     <div *ngIf="filteredRegistrations.length > 0" class="table-wrap">
-      <table class="table align-middle mb-0">
+      <table class="table align-middle mb-0 queue-table">
         <thead>
           <tr>
             <th>Participante</th>
             <th>Evento</th>
             <th>Status</th>
             <th>Inscrição</th>
-            <th></th>
+            <th class="actions-heading">Ação</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let registration of filteredRegistrations; trackBy: trackByRegistrationId">
-            <td>
-              <strong>{{ registration.participantName }}</strong>
-              <div class="muted-line">{{ registration.participantEmail }}</div>
+            <td class="participant-cell">
+              <strong class="participant-name">{{ registration.participantName }}</strong>
+              <div class="muted-line participant-email">{{ registration.participantEmail }}</div>
             </td>
-            <td>{{ registration.eventTitle }}</td>
+            <td class="event-cell">
+              <span class="event-title">{{ registration.eventTitle }}</span>
+            </td>
             <td>
               <span class="status-pill" [ngClass]="statusClass(registration.status)">
                 {{ registrationStatusLabel(registration.status) }}
               </span>
             </td>
             <td>{{ formatDateTime(registration.registeredAt) }}</td>
-            <td class="text-end">
+            <td class="actions-cell">
               <button
+                *ngIf="registration.status !== 'CHECKED_IN'; else doneState"
                 type="button"
-                class="btn btn-sm btn-aurora"
-                [disabled]="registration.status === 'CHECKED_IN' || submittingRegistrationId === registration.id"
+                class="btn btn-sm btn-aurora checkin-button"
+                [disabled]="submittingRegistrationId === registration.id"
                 (click)="confirmCheckIn(registration)">
-                {{ registration.status === 'CHECKED_IN' ? 'Confirmado' : (submittingRegistrationId === registration.id ? 'Processando...' : 'Confirmar check-in') }}
+                {{ submittingRegistrationId === registration.id ? 'Processando...' : 'Confirmar' }}
               </button>
+
+              <ng-template #doneState>
+                <span class="done-copy">Concluído</span>
+              </ng-template>
             </td>
           </tr>
         </tbody>

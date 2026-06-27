@@ -1,0 +1,69 @@
+<div class="datetime-shell" [class.is-open]="isOpen" [class.is-invalid]="showInvalid">
+  <button
+    type="button"
+    class="datetime-trigger"
+    [id]="inputId || null"
+    [disabled]="disabled"
+    [attr.aria-expanded]="isOpen"
+    aria-haspopup="dialog"
+    (click)="toggleOpen()">
+    <span class="datetime-value" [class.is-placeholder]="!displayValue">{{ displayValue || placeholder }}</span>
+    <span class="datetime-icon" aria-hidden="true"></span>
+  </button>
+
+  <div *ngIf="isOpen" class="datetime-panel" role="dialog">
+    <section class="calendar-panel">
+      <div class="calendar-header">
+        <button type="button" class="calendar-nav" (click)="showPreviousMonth()">&lt;</button>
+        <strong>{{ monthLabel }}</strong>
+        <button type="button" class="calendar-nav" (click)="showNextMonth()">&gt;</button>
+      </div>
+
+      <div class="weekday-row">
+        <span *ngFor="let weekday of weekdayLabels">{{ weekday }}</span>
+      </div>
+
+      <div class="day-grid">
+        <button
+          *ngFor="let day of calendarDays; trackBy: trackByDay"
+          type="button"
+          class="day-button"
+          [class.is-outside-month]="day.isOutsideMonth"
+          [class.is-today]="day.isToday"
+          [class.is-selected]="day.isSelected"
+          (click)="selectDay(day)">
+          {{ day.label }}
+        </button>
+      </div>
+
+      <div class="calendar-footer">
+        <button type="button" class="footer-action" (click)="clear()">Limpar</button>
+        <button type="button" class="footer-action is-primary" (click)="pickToday()">Hoje</button>
+      </div>
+    </section>
+
+    <section class="time-panel">
+      <div class="time-group">
+        <span class="time-label">Hora</span>
+        <app-custom-select
+          [options]="hourOptions"
+          [ngModel]="selectedHour"
+          [ngModelOptions]="{ standalone: true }"
+          [placeholder]="'Hora'"
+          (ngModelChange)="selectHour($event)">
+        </app-custom-select>
+      </div>
+
+      <div class="time-group">
+        <span class="time-label">Minuto</span>
+        <app-custom-select
+          [options]="minuteOptions"
+          [ngModel]="selectedMinute"
+          [ngModelOptions]="{ standalone: true }"
+          [placeholder]="'Minuto'"
+          (ngModelChange)="selectMinute($event)">
+        </app-custom-select>
+      </div>
+    </section>
+  </div>
+</div>

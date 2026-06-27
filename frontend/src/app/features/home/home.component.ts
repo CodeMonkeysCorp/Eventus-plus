@@ -54,10 +54,6 @@ export class HomeComponent implements OnInit {
     return this.authService.isStaff();
   }
 
-  get currentUser() {
-    return this.authService.user;
-  }
-
   get upcomingEvents(): EventResponse[] {
     return [...this.events]
       .sort((left, right) => new Date(left.startsAt).getTime() - new Date(right.startsAt).getTime())
@@ -75,17 +71,17 @@ export class HomeComponent implements OnInit {
   get homeStats(): HomeStat[] {
     if (this.isParticipant) {
       return [
-        { label: 'Minhas inscrições', value: this.registrations.length, hint: 'acompanhadas em um só lugar' },
-        { label: 'Presenças confirmadas', value: this.checkedInCount, hint: 'eventos com check-in concluído' },
-        { label: 'Certificados', value: this.certificates.length, hint: 'já disponíveis para consulta' }
+        { label: 'Inscrições', value: this.registrations.length, hint: 'ativas' },
+        { label: 'Check-ins', value: this.checkedInCount, hint: 'confirmados' },
+        { label: 'Certificados', value: this.certificates.length, hint: 'disponíveis' }
       ];
     }
 
     if (this.isStaff) {
       return [
-        { label: 'Eventos publicados', value: this.events.length, hint: 'prontos para operação' },
-        { label: 'Inscrições pendentes', value: this.pendingRegistrations, hint: 'aguardando check-in' },
-        { label: 'Presenças confirmadas', value: this.checkedInCount, hint: 'já registradas no sistema' }
+        { label: 'Eventos', value: this.events.length, hint: 'publicados' },
+        { label: 'Pendentes', value: this.pendingRegistrations, hint: 'para check-in' },
+        { label: 'Check-ins', value: this.checkedInCount, hint: 'confirmados' }
       ];
     }
 
@@ -94,26 +90,26 @@ export class HomeComponent implements OnInit {
 
   get heroTitle(): string {
     if (this.isStaff) {
-      return 'Centralize a operação dos eventos e acompanhe tudo sem planilhas paralelas.';
+      return 'Operação de eventos em um painel só.';
     }
 
     if (this.isParticipant) {
-      return `Olá, ${this.currentUser?.fullName.split(' ')[0] ?? 'participante'}. Seus próximos eventos começam aqui.`;
+      return 'Sua agenda.';
     }
 
-    return 'Organize eventos com inscrições, presença e certificados em um só fluxo.';
+    return 'Eventos, inscrições e presença em um só fluxo.';
   }
 
   get heroSubtitle(): string {
     if (this.isStaff) {
-      return 'Acesse o painel, confirme presenças e acompanhe a agenda publicada com mais clareza.';
+      return 'Agenda, inscrições e check-ins.';
     }
 
     if (this.isParticipant) {
-      return 'Veja o que já está aberto para inscrição, acompanhe sua presença e consulte certificados quando liberados.';
+      return 'Inscrições, presença e certificados.';
     }
 
-    return 'Descubra os próximos eventos e crie sua conta para acompanhar toda a sua participação.';
+    return 'Acesse a agenda e acompanhe tudo em um só lugar.';
   }
 
   statusClass(status: string): string {

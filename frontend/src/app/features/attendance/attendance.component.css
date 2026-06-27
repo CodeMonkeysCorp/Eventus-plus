@@ -4,5 +4,59 @@
 
 .search-field {
   width: 100%;
-  max-width: 260px;
+  max-width: 340px;
+}
+
+.queue-table {
+  min-width: 840px;
+}
+
+.participant-cell,
+.event-cell {
+  min-width: 0;
+}
+
+.participant-name,
+.event-title {
+  display: block;
+}
+
+.participant-email {
+  margin-top: 0.1rem;
+}
+
+.actions-heading {
+  text-align: right;
+}
+
+.actions-cell {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.checkin-button {
+  min-width: 8rem;
+}
+
+.done-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(25, 135, 84, 0.08);
+  color: #146c43;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .queue-heading {
+    align-items: stretch;
+  }
+
+  .search-field {
+    max-width: none;
+  }
 }

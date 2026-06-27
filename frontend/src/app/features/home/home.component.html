@@ -1,15 +1,14 @@
 <section class="section-stack">
   <div class="hero-panel card-panel home-hero">
     <div>
-      <span class="eyebrow">Eventus+</span>
       <h1 class="hero-title">{{ heroTitle }}</h1>
       <p class="hero-subtitle">{{ heroSubtitle }}</p>
 
       <div class="action-row mt-4">
-        <a routerLink="/eventos" class="btn btn-aurora">Explorar eventos</a>
+        <a routerLink="/eventos" class="btn btn-aurora">Ver agenda</a>
         <a *ngIf="!isAuthenticated" routerLink="/register" class="btn btn-sand">Criar conta</a>
-        <a *ngIf="isParticipant" routerLink="/minhas-inscricoes" class="btn btn-outline-secondary">Minhas inscrições</a>
-        <a *ngIf="isStaff" routerLink="/painel" class="btn btn-outline-secondary">Abrir painel</a>
+        <a *ngIf="isParticipant" routerLink="/minhas-inscricoes" class="btn btn-outline-secondary">Ver inscrições</a>
+        <a *ngIf="isStaff" routerLink="/painel" class="btn btn-outline-secondary">Painel</a>
       </div>
     </div>
 
@@ -23,17 +22,17 @@
   </div>
 
   <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
-  <div *ngIf="loading" class="loading-copy">Carregando eventos e resumos...</div>
+  <div *ngIf="loading" class="loading-copy">Carregando...</div>
 
   <section class="card-panel section-card">
     <div class="section-heading">
       <div>
-        <h2 class="section-title">Próximos eventos</h2>
+        <h2 class="section-title">Agenda</h2>
         <p class="section-subtitle">
-          {{ isStaff ? 'Agenda publicada para acompanhamento e operação.' : 'Eventos com inscrições e vagas visíveis agora.' }}
+          {{ isStaff ? 'Eventos publicados.' : 'Próximas datas abertas.' }}
         </p>
       </div>
-      <a routerLink="/eventos" class="btn btn-outline-secondary">Ver todos</a>
+      <a routerLink="/eventos" class="btn btn-outline-secondary">Ver tudo</a>
     </div>
 
     <div *ngIf="upcomingEvents.length === 0" class="empty-state">
@@ -44,7 +43,7 @@
       <article class="event-card surface-muted" *ngFor="let event of upcomingEvents; trackBy: trackByEventId">
         <div class="event-head">
           <span class="status-pill" [ngClass]="statusClass(event.status)">{{ eventStatusLabel(event.status) }}</span>
-          <span class="event-spots">{{ event.availableSpots }} vagas livres</span>
+          <span class="event-spots">{{ event.availableSpots }} vagas</span>
         </div>
         <h3>{{ event.title }}</h3>
         <p *ngIf="event.description" class="event-description">{{ event.description }}</p>

@@ -1,22 +1,25 @@
 <section class="section-stack">
   <div class="hero-panel card-panel">
-    <span class="eyebrow">Relatórios</span>
-    <h1 class="hero-title">Acompanhe ocupação e presença por evento.</h1>
-    <p class="hero-subtitle">Selecione uma agenda para analisar capacidade, inscrições e check-ins confirmados.</p>
+    <h1 class="hero-title">Relatórios</h1>
+    <p class="hero-subtitle">Capacidade, inscrições e presença por evento.</p>
   </div>
 
   <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
 
-  <section class="card-panel report-card">
+  <section *ngIf="loadingEvents || events.length === 0 || hasMultipleEvents" class="card-panel report-card">
     <div class="section-heading">
       <div>
-        <h2 class="section-title">Selecionar evento</h2>
-        <p class="section-subtitle">Escolha a agenda que deseja acompanhar.</p>
+        <h2 class="section-title">Evento</h2>
+        <p class="section-subtitle">{{ hasMultipleEvents ? 'Escolha o evento.' : 'Resumo do evento.' }}</p>
       </div>
-      <select class="form-select event-select" [(ngModel)]="selectedEventId" (ngModelChange)="onEventChange()">
-        <option [ngValue]="null">Escolha um evento</option>
-        <option *ngFor="let event of events" [ngValue]="event.id">{{ event.title }}</option>
-      </select>
+      <app-custom-select
+        *ngIf="hasMultipleEvents"
+        class="event-select"
+        [options]="eventOptions"
+        [ngModel]="selectedEventId"
+        [placeholder]="'Escolha um evento'"
+        (ngModelChange)="onEventChange($event)">
+      </app-custom-select>
     </div>
 
     <div *ngIf="loadingEvents" class="loading-copy">Carregando eventos para relatório...</div>
@@ -49,7 +52,7 @@
       <div class="section-heading">
         <div>
           <h2 class="section-title">{{ summary.title }}</h2>
-          <p class="section-subtitle">Visão consolidada do evento selecionado.</p>
+          <p class="section-subtitle">Resumo consolidado.</p>
         </div>
         <span class="status-pill" [ngClass]="statusClass(summary.status)">{{ eventStatusLabel(summary.status) }}</span>
       </div>

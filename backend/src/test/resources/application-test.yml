@@ -22,6 +22,12 @@ app:
     admin-name: Admin Teste
     admin-email: admin@test.local
     admin-password: Admin123!
+    operator-name: Operador Teste
+    operator-email: operator@test.local
+    operator-password: Operator123!
+    participant-name: Participante Teste
+    participant-email: participant@test.local
+    participant-password: Participant123!
 
 logging:
   level:

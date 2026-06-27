@@ -6,15 +6,15 @@ import com.eventusplus.common.exception.ConflictException;
 import com.eventusplus.common.exception.ResourceNotFoundException;
 import com.eventusplus.common.exception.UnauthorizedException;
 import com.eventusplus.security.dto.AuthResponse;
-import com.eventusplus.security.service.AuthService;
-import com.eventusplus.security.service.JwtService;
 import com.eventusplus.security.dto.LoginRequest;
 import com.eventusplus.security.dto.RegisterRequest;
 import com.eventusplus.security.model.UserPrincipal;
-import com.eventusplus.user.model.UserAccount;
-import com.eventusplus.user.repository.UserRepository;
+import com.eventusplus.security.service.AuthService;
+import com.eventusplus.security.service.JwtService;
 import com.eventusplus.user.dto.UserResponse;
+import com.eventusplus.user.model.UserAccount;
 import com.eventusplus.user.model.UserRole;
+import com.eventusplus.user.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -50,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse register(RegisterRequest request, String ipAddress) {
         String normalizedEmail = normalizeEmail(request.email());
         if (userRepository.existsByEmailIgnoreCase(normalizedEmail)) {
-            throw new ConflictException("JÃ¡ existe um usuÃ¡rio cadastrado com este e-mail.");
+            throw new ConflictException("Já existe um usuário cadastrado com este e-mail.");
         }
 
         UserAccount user = new UserAccount();
@@ -75,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public AuthResponse login(LoginRequest request, String ipAddress) {
         String normalizedEmail = normalizeEmail(request.email());
         try {
@@ -84,7 +84,7 @@ public class AuthServiceImpl implements AuthService {
             ).getPrincipal();
 
             UserAccount user = userRepository.findByEmailIgnoreCase(normalizedEmail)
-                    .orElseThrow(() -> new ResourceNotFoundException("UsuÃ¡rio nÃ£o encontrado."));
+                    .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
 
             auditService.log(
                     user.getId(),
@@ -103,10 +103,10 @@ public class AuthServiceImpl implements AuthService {
                     AuditAction.LOGIN_FAILURE,
                     "USER",
                     normalizedEmail,
-                    "Tentativa de login com credenciais invÃ¡lidas.",
+                    "Tentativa de login com credenciais inválidas.",
                     ipAddress
             );
-            throw new UnauthorizedException("E-mail ou senha invÃ¡lidos.");
+            throw new UnauthorizedException("E-mail ou senha inválidos.");
         }
     }
 
@@ -114,7 +114,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional(readOnly = true)
     public UserResponse currentUser(UserPrincipal principal) {
         UserAccount user = userRepository.findById(principal.id())
-                .orElseThrow(() -> new ResourceNotFoundException("UsuÃ¡rio nÃ£o encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
         return UserResponse.from(user);
     }
 

@@ -3,15 +3,18 @@
     <div class="topbar-inner">
       <a class="brand" routerLink="/home">
         <span class="brand-mark">Eventus+</span>
-        <small>Gestão de eventos</small>
       </a>
 
       <nav class="topbar-links">
-        <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Início</a>
-        <a routerLink="/eventos" routerLinkActive="active">Eventos</a>
-        <a *ngIf="isParticipant" routerLink="/minhas-inscricoes" routerLinkActive="active">Minhas inscrições</a>
+        <a routerLink="/eventos" routerLinkActive="active">Agenda</a>
+        <a *ngIf="isParticipant" routerLink="/minhas-inscricoes" routerLinkActive="active">Inscrições</a>
         <a *ngIf="isParticipant" routerLink="/certificados" routerLinkActive="active">Certificados</a>
         <a *ngIf="isStaff" class="staff-link" routerLink="/painel" routerLinkActive="active">Painel</a>
+        <a *ngIf="isStaff" class="staff-link" routerLink="/presencas" routerLinkActive="active">Presenças</a>
+        <a *ngIf="isAdmin" class="staff-link" routerLink="/gerenciar-eventos" routerLinkActive="active">Gestão</a>
+        <a *ngIf="isAdmin" class="staff-link" routerLink="/usuarios" routerLinkActive="active">Usuários</a>
+        <a *ngIf="isAdmin" class="staff-link" routerLink="/relatorios" routerLinkActive="active">Relatórios</a>
+        <a *ngIf="isAdmin" class="staff-link" routerLink="/auditoria" routerLinkActive="active">Auditoria</a>
       </nav>
 
       <div class="topbar-user" *ngIf="(user$ | async) as user; else guestActions">
@@ -36,6 +39,4 @@
       <router-outlet></router-outlet>
     </div>
   </main>
-
-  <footer class="footer-note">Eventus+ {{ currentYear }}</footer>
 </div>

@@ -20,6 +20,24 @@ export interface UserResponse {
   createdAt: string;
 }
 
+export interface UserCreatePayload {
+  fullName: string;
+  email: string;
+  password: string;
+  role: UserRole;
+}
+
+export interface UserUpdatePayload {
+  fullName: string;
+  email: string;
+  password?: string | null;
+  role: UserRole;
+}
+
+export interface UserStatusPayload {
+  active: boolean;
+}
+
 export interface AuthSession {
   token: string;
   user: UserResponse;

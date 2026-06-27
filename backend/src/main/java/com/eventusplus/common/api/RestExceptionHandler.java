@@ -1,14 +1,20 @@
 package com.eventusplus.common.api;
 
+import com.eventusplus.audit.model.AuditAction;
+import com.eventusplus.audit.service.AuditService;
 import com.eventusplus.common.exception.ConflictException;
 import com.eventusplus.common.exception.ForbiddenOperationException;
 import com.eventusplus.common.exception.ResourceNotFoundException;
 import com.eventusplus.common.exception.UnauthorizedException;
+import com.eventusplus.common.web.RequestUtils;
+import com.eventusplus.security.model.UserPrincipal;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import java.time.Instant;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,6 +23,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
+
+    private final AuditService auditService;
+
+    public RestExceptionHandler(AuditService auditService) {
+        this.auditService = auditService;
+    }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiError> handleNotFound(ResourceNotFoundException exception, HttpServletRequest request) {
@@ -35,6 +47,9 @@ public class RestExceptionHandler {
 
     @ExceptionHandler({ForbiddenOperationException.class, AccessDeniedException.class})
     public ResponseEntity<ApiError> handleForbidden(RuntimeException exception, HttpServletRequest request) {
+        if (exception instanceof AccessDeniedException) {
+            logAccessDenied(request);
+        }
         return buildError(HttpStatus.FORBIDDEN, exception.getMessage(), request);
     }
 
@@ -67,5 +82,25 @@ public class RestExceptionHandler {
                 request.getRequestURI()
         );
         return ResponseEntity.status(status).body(body);
+    }
+
+    private void logAccessDenied(HttpServletRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long actorId = null;
+        String actorEmail = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserPrincipal principal) {
+            actorId = principal.id();
+            actorEmail = principal.getUsername();
+        }
+
+        auditService.log(
+                actorId,
+                actorEmail,
+                AuditAction.ACCESS_DENIED,
+                "ENDPOINT",
+                request.getRequestURI(),
+                "Acesso negado ao recurso solicitado.",
+                RequestUtils.resolveClientIp(request)
+        );
     }
 }

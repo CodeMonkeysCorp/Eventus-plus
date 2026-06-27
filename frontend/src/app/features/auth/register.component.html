@@ -1,23 +1,8 @@
 <section class="auth-layout">
-  <div class="auth-side card-panel">
-    <div class="auth-side-body">
-      <span class="eyebrow">Eventus+</span>
-      <p class="auth-kicker">Primeiro acesso</p>
-      <h1>Crie sua conta.</h1>
-      <p>Cadastre-se para acompanhar eventos, inscrições e certificados sem sair da plataforma.</p>
-    </div>
-
-    <div class="auth-side-link">
-      <span>Já possui acesso?</span>
-      <a routerLink="/login">Entrar</a>
-    </div>
-  </div>
-
-  <div class="auth-card card-panel">
+  <div class="auth-card auth-card-wide card-panel">
     <div class="auth-card-header">
-      <span class="eyebrow">Cadastro</span>
-      <h2>Criar conta</h2>
-      <p class="auth-copy">Preencha seus dados para começar.</p>
+      <h1>Criar conta</h1>
+      <p class="auth-copy">Acesse agenda, inscrições e certificados.</p>
     </div>
 
     <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
@@ -47,7 +32,7 @@
             inputmode="email"
             autocomplete="email"
             formControlName="email"
-            placeholder="voce@empresa.com">
+            placeholder="voce@email.com">
           <small *ngIf="fieldInvalid('email')" class="field-error">{{ fieldError('email') }}</small>
         </div>
       </div>
@@ -63,7 +48,7 @@
               [type]="showPassword ? 'text' : 'password'"
               autocomplete="new-password"
               formControlName="password"
-              placeholder="Mínimo de 8 caracteres">
+              placeholder="8 a 72 caracteres">
             <button type="button" class="btn btn-outline-secondary toggle-button" (click)="togglePassword()">
               {{ showPassword ? 'Ocultar' : 'Mostrar' }}
             </button>
@@ -97,7 +82,7 @@
     </form>
 
     <p class="auth-footnote">
-      Já possui conta?
+      Já tem conta?
       <a routerLink="/login">Entrar</a>
     </p>
   </div>

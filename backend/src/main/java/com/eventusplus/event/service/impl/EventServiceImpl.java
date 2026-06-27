@@ -3,12 +3,12 @@ package com.eventusplus.event.service.impl;
 import com.eventusplus.audit.model.AuditAction;
 import com.eventusplus.audit.service.AuditService;
 import com.eventusplus.common.exception.ResourceNotFoundException;
-import com.eventusplus.event.model.AcademicEvent;
 import com.eventusplus.event.dto.EventRequest;
 import com.eventusplus.event.dto.EventResponse;
+import com.eventusplus.event.model.AcademicEvent;
+import com.eventusplus.event.model.EventStatus;
 import com.eventusplus.event.repository.AcademicEventRepository;
 import com.eventusplus.event.service.EventService;
-import com.eventusplus.event.model.EventStatus;
 import com.eventusplus.registration.repository.EventRegistrationRepository;
 import com.eventusplus.security.model.UserPrincipal;
 import com.eventusplus.user.model.UserAccount;
@@ -60,7 +60,7 @@ public class EventServiceImpl implements EventService {
     public EventResponse getPublishedEvent(Long eventId) {
         AcademicEvent event = eventRepository.findById(eventId)
                 .filter(foundEvent -> foundEvent.getStatus() == EventStatus.PUBLISHED)
-                .orElseThrow(() -> new ResourceNotFoundException("Evento nÃ£o encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Evento não encontrado."));
         return toResponse(event);
     }
 
@@ -70,7 +70,7 @@ public class EventServiceImpl implements EventService {
         validateDates(request);
 
         UserAccount creator = userRepository.findById(principal.id())
-                .orElseThrow(() -> new ResourceNotFoundException("UsuÃ¡rio nÃ£o encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
 
         AcademicEvent event = new AcademicEvent();
         applyRequest(event, request);
@@ -94,7 +94,7 @@ public class EventServiceImpl implements EventService {
         validateDates(request);
 
         AcademicEvent event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new ResourceNotFoundException("Evento nÃ£o encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Evento não encontrado."));
 
         applyRequest(event, request);
         AcademicEvent savedEvent = eventRepository.save(event);
@@ -113,7 +113,7 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public void delete(Long eventId, UserPrincipal principal, String ipAddress) {
         AcademicEvent event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new ResourceNotFoundException("Evento nÃ£o encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Evento não encontrado."));
 
         eventRepository.delete(event);
         auditService.log(
@@ -138,7 +138,7 @@ public class EventServiceImpl implements EventService {
 
     private void validateDates(EventRequest request) {
         if (!request.endsAt().isAfter(request.startsAt())) {
-            throw new IllegalStateException("A data de tÃ©rmino deve ser posterior Ã  data de inÃ­cio.");
+            throw new IllegalStateException("A data de término deve ser posterior à data de início.");
         }
     }
 

@@ -1,0 +1,214 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.datetime-shell {
+  position: relative;
+}
+
+.datetime-shell.is-open {
+  z-index: 40;
+}
+
+.datetime-trigger {
+  width: 100%;
+  min-height: 3.35rem;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem;
+  border-radius: 16px;
+  border: 1px solid rgba(34, 30, 26, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text);
+  text-align: left;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.datetime-trigger:hover:not(:disabled) {
+  border-color: rgba(var(--brand-rgb), 0.28);
+}
+
+.datetime-trigger:focus-visible {
+  outline: none;
+  border-color: var(--border-strong);
+  box-shadow: 0 0 0 0.23rem rgba(var(--brand-rgb), 0.12);
+}
+
+.datetime-trigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.68;
+}
+
+.datetime-value.is-placeholder {
+  color: var(--muted);
+}
+
+.datetime-icon {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  position: relative;
+  border: 2px solid rgba(34, 30, 26, 0.5);
+  border-radius: 0.3rem;
+}
+
+.datetime-icon::before {
+  content: "";
+  position: absolute;
+  top: -0.2rem;
+  left: 0.14rem;
+  right: 0.14rem;
+  height: 0.18rem;
+  border-radius: 999px;
+  background: rgba(34, 30, 26, 0.5);
+}
+
+.datetime-panel {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  left: 0;
+  z-index: 80;
+  min-width: 100%;
+  width: min(max(100%, 30rem), calc(100vw - 3rem));
+  padding: 0.9rem;
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: 1.2fr 0.9fr;
+  border-radius: 22px;
+  border: 1px solid rgba(34, 30, 26, 0.1);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 20px 44px rgba(35, 28, 20, 0.18);
+  backdrop-filter: blur(14px);
+}
+
+.calendar-panel,
+.time-panel {
+  min-width: 0;
+}
+
+.calendar-header,
+.calendar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.calendar-header strong {
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  font-size: 1rem;
+}
+
+.calendar-nav {
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 1px solid rgba(34, 30, 26, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--text);
+}
+
+.calendar-nav:hover {
+  border-color: rgba(var(--brand-rgb), 0.24);
+  background: rgba(var(--brand-rgb), 0.08);
+}
+
+.weekday-row,
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.weekday-row {
+  margin-top: 0.8rem;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.day-grid {
+  margin-top: 0.55rem;
+  gap: 0.18rem;
+}
+
+.day-button {
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.day-button:hover {
+  background: rgba(var(--brand-rgb), 0.09);
+}
+
+.day-button.is-outside-month {
+  color: rgba(106, 98, 89, 0.58);
+}
+
+.day-button.is-today {
+  outline: 1px solid rgba(var(--brand-rgb), 0.25);
+}
+
+.day-button.is-selected {
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-deep) 100%);
+  color: #fff;
+}
+
+.calendar-footer {
+  margin-top: 0.85rem;
+}
+
+.footer-action {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.footer-action.is-primary {
+  color: var(--brand);
+}
+
+.time-panel {
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+  padding-left: 0.2rem;
+}
+
+.time-group {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.time-label {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.datetime-shell.is-invalid .datetime-trigger {
+  border-color: rgba(194, 72, 65, 0.34);
+  background: rgba(194, 72, 65, 0.04);
+}
+
+@media (max-width: 720px) {
+  .datetime-panel {
+    width: min(100vw - 1.5rem, 100%);
+    grid-template-columns: 1fr;
+  }
+
+  .time-panel {
+    padding-left: 0;
+  }
+}

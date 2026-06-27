@@ -25,7 +25,7 @@ public class ReportServiceImpl implements ReportService {
     @Transactional(readOnly = true)
     public EventSummaryResponse eventSummary(Long eventId) {
         AcademicEvent event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new ResourceNotFoundException("Evento nÃ£o encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Evento não encontrado."));
 
         long registrations = registrationRepository.countByEventId(eventId);
         long checkIns = registrationRepository.countByEventIdAndStatus(eventId, RegistrationStatus.CHECKED_IN);

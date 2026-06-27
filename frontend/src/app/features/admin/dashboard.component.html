@@ -1,11 +1,10 @@
 <section class="section-stack">
   <div class="hero-panel card-panel">
-    <span class="eyebrow">Painel {{ roleLabel(currentRole) }}</span>
     <h1 class="hero-title">
-      {{ isAdmin ? 'Acompanhe a operação e mantenha a agenda publicada em dia.' : 'Confirme presenças e avance rápido no atendimento.' }}
+      {{ isAdmin ? 'Visão geral da operação.' : 'Check-ins e agenda.' }}
     </h1>
     <p class="hero-subtitle">
-      {{ isAdmin ? 'O painel concentra o que precisa de ação sem repetir relatórios e auditoria em toda a navegação.' : 'Use os atalhos abaixo para abrir a fila de check-in e acompanhar os próximos eventos.' }}
+      {{ isAdmin ? 'Acesso direto a eventos, relatórios e auditoria.' : 'Acompanhe inscrições e confirme presenças.' }}
     </p>
   </div>
 
@@ -22,20 +21,24 @@
 
   <div class="quick-links">
     <a routerLink="/presencas" class="card-panel quick-link">
-      <strong>Confirmar presenças</strong>
-      <span>Acesse a fila de check-in dos participantes.</span>
+      <strong>Presenças</strong>
+      <span>Fila de check-in</span>
     </a>
     <a *ngIf="isAdmin" routerLink="/gerenciar-eventos" class="card-panel quick-link">
-      <strong>Gerenciar eventos</strong>
-      <span>Atualize agenda, vagas e status de publicação.</span>
+      <strong>Gestão</strong>
+      <span>Agenda e publicação</span>
+    </a>
+    <a *ngIf="isAdmin" routerLink="/usuarios" class="card-panel quick-link">
+      <strong>Usuários</strong>
+      <span>Perfis e acessos</span>
     </a>
     <a *ngIf="isAdmin" routerLink="/relatorios" class="card-panel quick-link">
       <strong>Relatórios</strong>
-      <span>Veja ocupação, inscrições e presença por evento.</span>
+      <span>Capacidade e presença</span>
     </a>
     <a *ngIf="isAdmin" routerLink="/auditoria" class="card-panel quick-link">
       <strong>Auditoria</strong>
-      <span>Consulte acessos e ações administrativas recentes.</span>
+      <span>Acessos e ações</span>
     </a>
   </div>
 
@@ -43,7 +46,7 @@
     <div class="section-heading">
       <div>
         <h2 class="section-title">Próximos eventos</h2>
-        <p class="section-subtitle">Agenda mais próxima para acompanhamento da operação.</p>
+        <p class="section-subtitle">Agenda publicada.</p>
       </div>
     </div>
 

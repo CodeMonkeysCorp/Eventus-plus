@@ -1,0 +1,26 @@
+<div class="select-shell" [class.is-open]="isOpen" [class.is-invalid]="showInvalid">
+  <button
+    type="button"
+    class="select-trigger"
+    [id]="inputId || null"
+    [disabled]="disabled"
+    [attr.aria-expanded]="isOpen"
+    aria-haspopup="listbox"
+    (click)="toggleOpen()">
+    <span class="select-value" [class.is-placeholder]="isPlaceholder">{{ displayLabel }}</span>
+    <span class="select-chevron" aria-hidden="true"></span>
+  </button>
+
+  <div *ngIf="isOpen" class="select-panel" role="listbox">
+    <button
+      *ngFor="let option of options; trackBy: trackByOption"
+      type="button"
+      class="select-option"
+      [class.is-selected]="isSelected(option)"
+      [disabled]="option.disabled"
+      (click)="select(option)">
+      <span>{{ option.label }}</span>
+      <small *ngIf="option.hint">{{ option.hint }}</small>
+    </button>
+  </div>
+</div>

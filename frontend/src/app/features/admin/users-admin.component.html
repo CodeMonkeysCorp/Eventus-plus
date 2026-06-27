@@ -1,0 +1,149 @@
+<section class="section-stack">
+  <div class="hero-panel card-panel">
+    <h1 class="hero-title">Usuários</h1>
+    <p class="hero-subtitle">Perfis, acessos e status.</p>
+  </div>
+
+  <div *ngIf="successMessage" class="feedback-success">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
+
+  <div class="stats-grid">
+    <article class="stat-card">
+      <p class="stat-label">Usuários</p>
+      <p class="stat-value">{{ totalUsers }}</p>
+      <small class="stat-hint">cadastros</small>
+    </article>
+
+    <article class="stat-card">
+      <p class="stat-label">Ativos</p>
+      <p class="stat-value">{{ activeUsers }}</p>
+      <small class="stat-hint">com acesso</small>
+    </article>
+
+    <article class="stat-card">
+      <p class="stat-label">Equipe</p>
+      <p class="stat-value">{{ staffUsers }}</p>
+      <small class="stat-hint">admin e operação</small>
+    </article>
+  </div>
+
+  <div class="admin-grid">
+    <section class="card-panel form-card">
+      <div class="section-heading">
+        <div>
+          <h2 class="section-title">{{ isEditing ? 'Editar usuário' : 'Novo usuário' }}</h2>
+          <p class="section-subtitle">Conta, perfil e acesso.</p>
+        </div>
+      </div>
+
+      <form class="user-form" [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-grid">
+          <div>
+            <label class="form-label" for="fullName">Nome</label>
+            <input id="fullName" class="form-control" type="text" formControlName="fullName">
+          </div>
+
+          <div>
+            <label class="form-label" for="email">Email</label>
+            <input id="email" class="form-control" type="email" formControlName="email">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label class="form-label" for="role">Perfil</label>
+            <app-custom-select
+              inputId="role"
+              formControlName="role"
+              [options]="roleSelectOptions">
+            </app-custom-select>
+          </div>
+
+          <div>
+            <label class="form-label" for="password">{{ passwordLabel }}</label>
+            <input id="password" class="form-control" type="password" formControlName="password">
+            <small class="field-hint">{{ passwordHint }}</small>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button class="btn btn-aurora" type="submit" [disabled]="submitting">
+            {{ submitting ? 'Salvando...' : (isEditing ? 'Atualizar usuário' : 'Criar usuário') }}
+          </button>
+          <button *ngIf="isEditing" type="button" class="btn btn-outline-secondary" (click)="cancelEdit()">Cancelar</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card-panel list-card">
+      <div class="section-heading list-heading">
+        <div>
+          <h2 class="section-title">Acessos</h2>
+          <p class="section-subtitle">Busca e ajustes.</p>
+        </div>
+
+        <input
+          class="form-control filter-input"
+          type="search"
+          [(ngModel)]="query"
+          [ngModelOptions]="{ standalone: true }"
+          placeholder="Buscar nome, e-mail ou perfil">
+      </div>
+
+      <div *ngIf="loading" class="loading-copy">Carregando usuários...</div>
+      <div *ngIf="!loading && users.length === 0" class="empty-state">Nenhum usuário cadastrado até agora.</div>
+      <div *ngIf="!loading && users.length > 0 && filteredUsers.length === 0" class="empty-state">Nenhum usuário encontrado.</div>
+
+      <div *ngIf="!loading && filteredUsers.length > 0" class="table-wrap">
+        <table class="table align-middle mb-0 users-table">
+          <thead>
+            <tr>
+              <th>Usuário</th>
+              <th>Perfil</th>
+              <th>Status</th>
+              <th>Criado em</th>
+              <th class="users-actions-heading">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of filteredUsers; trackBy: trackByUserId">
+              <td class="user-name-cell">
+                <strong class="user-name">{{ user.fullName }}</strong>
+                <div class="muted-line">{{ user.email }}</div>
+              </td>
+              <td>
+                <span class="status-pill" [ngClass]="roleClass(user.role)">
+                  {{ roleLabel(user.role) }}
+                </span>
+              </td>
+              <td>
+                <span class="status-pill" [ngClass]="activeClass(user.active)">
+                  {{ activeLabel(user.active) }}
+                </span>
+              </td>
+              <td class="user-created-cell">{{ formatDateTime(user.createdAt) }}</td>
+              <td class="actions-cell">
+                <ng-container *ngIf="!isCurrentUser(user); else currentUserBadge">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="edit(user)">Editar</button>
+                  <button
+                    type="button"
+                    class="btn btn-sm"
+                    [class.btn-outline-danger]="user.active"
+                    [class.btn-outline-secondary]="!user.active"
+                    [disabled]="statusUpdatingUserId === user.id"
+                    (click)="toggleStatus(user)">
+                    {{ statusUpdatingUserId === user.id ? 'Salvando...' : (user.active ? 'Desativar' : 'Ativar') }}
+                  </button>
+                </ng-container>
+
+                <ng-template #currentUserBadge>
+                  <span class="self-badge">Atual</span>
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</section>

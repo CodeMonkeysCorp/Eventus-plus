@@ -1,8 +1,7 @@
 <section class="section-stack">
   <div class="hero-panel card-panel">
-    <span class="eyebrow">Minhas inscrições</span>
-    <h1 class="hero-title">Acompanhe suas participações em andamento.</h1>
-    <p class="hero-subtitle">Consulte status, presença e liberação de certificado por evento.</p>
+    <h1 class="hero-title">Inscrições</h1>
+    <p class="hero-subtitle">Status, check-in e certificados.</p>
   </div>
 
   <div *ngIf="errorMessage" class="feedback-error">{{ errorMessage }}</div>
@@ -15,10 +14,10 @@
   <section *ngIf="!loading && registrations.length > 0" class="card-panel table-card">
     <div class="section-heading">
       <div>
-        <h2 class="section-title">Suas inscrições</h2>
+        <h2 class="section-title">Histórico</h2>
         <p class="section-subtitle">
-          {{ registrations.length }} registro{{ registrations.length === 1 ? '' : 's' }}
-          e {{ checkedInCount }} presença{{ checkedInCount === 1 ? '' : 's' }} confirmada{{ checkedInCount === 1 ? '' : 's' }}.
+          {{ registrations.length }} inscrição{{ registrations.length === 1 ? '' : 'es' }}
+          • {{ checkedInCount }} check-in{{ checkedInCount === 1 ? '' : 's' }}
         </p>
       </div>
     </div>

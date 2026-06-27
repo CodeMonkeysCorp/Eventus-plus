@@ -16,14 +16,9 @@ export class AppComponent implements OnInit {
   private readonly router = inject(Router);
 
   readonly user$ = this.authService.user$;
-  readonly currentYear = new Date().getFullYear();
 
   ngOnInit(): void {
     this.authService.validateSession().subscribe();
-  }
-
-  get isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
   }
 
   get isParticipant(): boolean {
@@ -43,7 +38,7 @@ export class AppComponent implements OnInit {
   }
 
   firstName(fullName: string): string {
-    return fullName.trim().split(' ')[0] || 'Usuario';
+    return fullName.trim().split(' ')[0] || 'Conta';
   }
 
   logout(): void {
