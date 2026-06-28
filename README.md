@@ -66,7 +66,7 @@ Os valores podem ser alterados no arquivo `.env` a partir do modelo
 
 ## Docker Local
 
-O projeto agora possui o mesmo setup Docker do `Reserva-plus`, com:
+O projeto possui um setup Docker, com:
 
 - `compose.yaml` para desenvolvimento local
 - `compose.prod.yaml` para deploy com imagens prontas
@@ -83,10 +83,6 @@ O projeto agora possui o mesmo setup Docker do `Reserva-plus`, com:
 .\run-local.ps1 -DatabaseOnly
 .\stop-local.ps1
 ```
-
-No desenvolvimento local, o `eventus-plus` possui seu próprio MySQL no
-`compose.yaml`, publicado por padrão na porta `3307`. Assim ele fica isolado
-do `reserva-plus`, que pode continuar usando a porta `3306`.
 
 Após subir a stack completa, as URLs padrão ficam assim:
 
