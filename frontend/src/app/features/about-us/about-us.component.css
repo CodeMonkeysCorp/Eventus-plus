@@ -1,0 +1,35 @@
+.about-title {
+  color: var(--brand);
+}
+
+.brand-text {
+  color: var(--brand);
+}
+
+.mission-box {
+  background-color: rgba(var(--brand-rgb), 0.05);
+}
+
+.mission-title {
+  color: var(--brand-ink);
+}
+
+.mission-btn {
+  border: 2px solid var(--brand) !important;
+  color: var(--brand) !important;
+  background: transparent !important;
+}
+
+.hover-lift {
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  border-color: var(--brand) !important;
+}
+
+.mission-btn:hover {
+  background: var(--brand) !important;
+  color: #ffffff !important;
+}
