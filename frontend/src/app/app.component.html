@@ -7,6 +7,7 @@
 
       <nav class="topbar-links">
         <a routerLink="/eventos" routerLinkActive="active">Agenda</a>
+        <a routerLink="/sobre" routerLinkActive="active">Sobre Nós</a>
         <a *ngIf="isParticipant" routerLink="/minhas-inscricoes" routerLinkActive="active">Inscrições</a>
         <a *ngIf="isParticipant" routerLink="/certificados" routerLinkActive="active">Certificados</a>
         <a *ngIf="isStaff" class="staff-link" routerLink="/painel" routerLinkActive="active">Painel</a>

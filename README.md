@@ -33,9 +33,7 @@ Copy-Item .env.example .env
 
 ou
 
-```bash
-cp .env.example .env
-```
+O projeto possui um setup Docker, com:
 
 2. Ajuste os valores se necessário, principalmente:
 
@@ -68,25 +66,7 @@ Comandos úteis:
 .\stop-local.ps1 -RemoveVolumes
 ```
 
-### Sem script
-
-```bash
-docker compose up -d --build
-```
-
-Para parar:
-
-```bash
-docker compose down
-```
-
-Para apagar também o banco local e recriar os usuários bootstrap:
-
-```bash
-docker compose down -v
-```
-
-### Portas padrão com Docker
+Após subir a stack completa, as URLs padrão ficam assim:
 
 - Frontend: `http://localhost:4201`
 - Backend: `http://localhost:8081`
@@ -145,11 +125,11 @@ No modo manual, o frontend usa `proxy.conf.json`, então as chamadas para `/api`
 
 Quando o backend sobe com o banco vazio, ele cria automaticamente estes usuários bootstrap:
 
-| Perfil | Nome | E-mail | Senha |
-| --- | --- | --- | --- |
-| Administrador | `Administrador Local` | `admin@eventusplus.local` | `change_me_admin` |
-| Operador | `Operador Local` | `operador@eventusplus.local` | `change_me_operator` |
-| Participante | `Participante Local` | `participante@eventusplus.local` | `change_me_participant` |
+| Perfil        | Nome                  | E-mail                           | Senha                   |
+| ------------- | --------------------- | -------------------------------- | ----------------------- |
+| Administrador | `Administrador Local` | `admin@eventusplus.local`        | `change_me_admin`       |
+| Operador      | `Operador Local`      | `operador@eventusplus.local`     | `change_me_operator`    |
+| Participante  | `Participante Local`  | `participante@eventusplus.local` | `change_me_participant` |
 
 Esses valores vêm do `.env` e podem ser alterados antes da primeira subida.
 

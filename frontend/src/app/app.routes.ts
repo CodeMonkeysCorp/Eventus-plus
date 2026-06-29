@@ -16,6 +16,7 @@ import { EventsComponent } from './features/events/events.component';
 import { HomeComponent } from './features/home/home.component';
 import { RegistrationsComponent } from './features/registrations/registrations.component';
 import { ReportsComponent } from './features/reports/reports.component';
+import { AboutUsComponent } from './features/about-us/about-us.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -31,5 +32,6 @@ export const routes: Routes = [
   { path: 'presencas', component: AttendanceComponent, canActivate: [authGuard, staffGuard] },
   { path: 'relatorios', component: ReportsComponent, canActivate: [authGuard, adminGuard] },
   { path: 'auditoria', component: AuditComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'sobre', component: AboutUsComponent },
   { path: '**', redirectTo: 'home' }
 ];

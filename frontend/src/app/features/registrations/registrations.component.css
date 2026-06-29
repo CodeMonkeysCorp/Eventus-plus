@@ -1,3 +1,32 @@
 .table-card {
   padding: 1.25rem;
 }
+
+.summary-strip {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin: 1rem 0 1.2rem;
+}
+
+.compact {
+  padding: 0.9rem 1rem;
+}
+
+.cell-stack {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.table thead th {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7f776d;
+}
+
+.table tbody td {
+  padding-top: 0.95rem;
+  padding-bottom: 0.95rem;
+  vertical-align: middle;
+}
