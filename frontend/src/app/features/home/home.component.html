@@ -1,7 +1,6 @@
 <section class="section-stack">
   <div class="hero-panel card-panel home-hero">
     <div class="hero-copy">
-      <span class="eyebrow">Fluxo completo</span>
       <h1 class="hero-title">{{ heroTitle }}</h1>
       <p class="hero-subtitle">{{ heroSubtitle }}</p>
 
@@ -12,7 +11,7 @@
         <a *ngIf="isStaff" routerLink="/painel" class="btn btn-outline-secondary">Painel</a>
       </div>
 
-      <p class="hero-footnote">Tudo organizado para acompanhar eventos, presença e certificados sem perder o contexto.</p>
+      <p class="hero-footnote">{{ heroFootnote }}</p>
     </div>
 
     <div *ngIf="!loading && homeStats.length > 0" class="hero-aside">

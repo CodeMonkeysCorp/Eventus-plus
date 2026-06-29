@@ -111,7 +111,7 @@
                 </span>
               </td>
               <td class="event-start-cell">{{ formatDateTime(event.startsAt) }}</td>
-              <td>{{ event.registeredCount }}/{{ event.capacity }}</td>
+              <td class="event-capacity-cell">{{ event.registeredCount }}/{{ event.capacity }}</td>
               <td class="actions-cell">
                 <button type="button" class="btn btn-sm btn-outline-secondary" (click)="edit(event)">Editar</button>
                 <button type="button" class="btn btn-sm btn-outline-danger" (click)="remove(event)">Remover</button>

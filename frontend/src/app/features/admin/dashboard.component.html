@@ -19,29 +19,6 @@
     </article>
   </div>
 
-  <div class="quick-links">
-    <a routerLink="/presencas" class="card-panel quick-link">
-      <strong>Presenças</strong>
-      <span>Fila de check-in</span>
-    </a>
-    <a *ngIf="isAdmin" routerLink="/gerenciar-eventos" class="card-panel quick-link">
-      <strong>Gestão</strong>
-      <span>Agenda e publicação</span>
-    </a>
-    <a *ngIf="isAdmin" routerLink="/usuarios" class="card-panel quick-link">
-      <strong>Usuários</strong>
-      <span>Perfis e acessos</span>
-    </a>
-    <a *ngIf="isAdmin" routerLink="/relatorios" class="card-panel quick-link">
-      <strong>Relatórios</strong>
-      <span>Capacidade e presença</span>
-    </a>
-    <a *ngIf="isAdmin" routerLink="/auditoria" class="card-panel quick-link">
-      <strong>Auditoria</strong>
-      <span>Acessos e ações</span>
-    </a>
-  </div>
-
   <section *ngIf="visibleEvents.length > 0" class="card-panel content-card">
     <div class="section-heading">
       <div>

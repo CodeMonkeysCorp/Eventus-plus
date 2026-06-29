@@ -1,12 +1,13 @@
 .admin-grid {
   display: grid;
   gap: 1.25rem;
-  grid-template-columns: 0.95fr 1.25fr;
+  grid-template-columns: 1fr;
 }
 
 .form-card,
 .list-card {
   padding: 1.35rem;
+  min-width: 0;
 }
 
 .user-form {
@@ -17,7 +18,11 @@
 .form-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+
+.form-grid > div {
+  min-width: 0;
 }
 
 .field-hint {
@@ -35,7 +40,7 @@
 }
 
 .users-table {
-  min-width: 820px;
+  min-width: 980px;
 }
 
 .user-name-cell {
@@ -47,7 +52,7 @@
 }
 
 .user-created-cell {
-  min-width: 11rem;
+  min-width: 13rem;
 }
 
 .users-actions-heading {
@@ -57,11 +62,17 @@
 
 .actions-cell {
   width: 1%;
+  min-width: 12.5rem;
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: flex-end;
   align-items: center;
-  white-space: nowrap;
+}
+
+.actions-cell .btn,
+.actions-cell .self-badge {
+  flex: 0 0 auto;
 }
 
 .self-badge {
@@ -77,11 +88,6 @@
 }
 
 @media (max-width: 980px) {
-  .admin-grid,
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
   .filter-input {
     width: 100%;
   }

@@ -1,35 +1,7 @@
-.quick-links {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-.quick-link,
 .content-card {
   padding: 1.3rem;
 }
 
-.quick-link {
-  border: 1px solid rgba(34, 30, 26, 0.08);
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.quick-link:hover {
-  transform: translateY(-2px);
-  border-color: rgba(var(--brand-rgb), 0.24);
-  box-shadow: var(--shadow-card);
-}
-
-.quick-link strong,
-.quick-link span {
-  display: block;
-}
-
-.quick-link strong {
-  margin-bottom: 0.35rem;
-}
-
-.quick-link span,
 .muted-line {
   color: var(--muted);
 }

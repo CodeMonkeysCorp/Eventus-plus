@@ -112,6 +112,18 @@ export class HomeComponent implements OnInit {
     return 'Acesse a agenda e acompanhe tudo em um só lugar.';
   }
 
+  get heroFootnote(): string {
+    if (this.isStaff) {
+      return 'Centralize agenda, inscrições, check-ins e certificados em uma operação única.';
+    }
+
+    if (this.isParticipant) {
+      return 'Acompanhe sua agenda, suas inscrições e seus certificados em um só lugar.';
+    }
+
+    return 'Uma plataforma para publicar eventos, gerenciar inscrições, registrar presença e emitir certificados.';
+  }
+
   statusClass(status: string): string {
     return `status-pill is-${status.toLowerCase().replace('_', '-')}`;
   }
