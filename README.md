@@ -1,13 +1,13 @@
 # Eventus Plus
 
-Sistema web para gestão de eventos, com login, perfis de acesso, inscrições, check-in, relatórios e auditoria.
+Sistema web para gestão de eventos com autenticação, perfis de acesso, inscrições, check-in, certificados, relatórios e auditoria.
 
 ## Stack
 
-- Frontend: Angular
-- Backend: Spring Boot com Java 17
+- Frontend: Angular 17
+- Backend: Spring Boot 3 com Java 17
 - Banco de dados: MySQL 8
-- Segurança: JWT, BCrypt, autorização por perfil, auditoria e variáveis de ambiente
+- Segurança: JWT, BCrypt e autorização por perfil
 
 ## Requisitos
 
@@ -31,10 +31,6 @@ Sistema web para gestão de eventos, com login, perfis de acesso, inscrições, 
 Copy-Item .env.example .env
 ```
 
-ou
-
-O projeto possui um setup Docker, com:
-
 2. Ajuste os valores se necessário, principalmente:
 
 - `JWT_SECRET`
@@ -42,7 +38,7 @@ O projeto possui um setup Docker, com:
 - `MYSQL_ROOT_PASSWORD`
 - portas, caso alguma já esteja em uso
 
-3. O arquivo `.env` fica fora do GitHub e deve permanecer local.
+3. O arquivo `.env` deve permanecer local e não deve ser enviado para o Git.
 
 ## Subir com Docker
 
@@ -75,7 +71,7 @@ Após subir a stack completa, as URLs padrão ficam assim:
 
 ## Execução manual
 
-Use esse caminho se quiser rodar frontend e backend fora do Docker.
+Use esse caminho apenas se quiser rodar frontend e backend fora do Docker. Como o backend não carrega o arquivo `.env` automaticamente, você precisa exportar as variáveis de ambiente antes de iniciar a aplicação.
 
 ### 1. Banco de dados
 
@@ -87,25 +83,38 @@ Você pode:
 .\run-local.ps1 -DatabaseOnly
 ```
 
-- ou usar uma instância própria de MySQL 8 e ajustar o `.env`
+- ou usar uma instância própria de MySQL 8 e ajustar as variáveis de ambiente
 
-Valores padrão esperados pelo backend:
+Valores padrão esperados pelo backend local:
 
-- host: `127.0.0.1`
-- porta: `3307`
-- banco: `eventus_plus`
-- usuário: `eventus_app`
+- `DB_HOST=127.0.0.1`
+- `DB_PORT=3307`
+- `DB_NAME=eventus_plus`
+- `DB_USER=eventus_app`
+- `DB_PASSWORD=eventus123`
 
 ### 2. Backend
 
+No PowerShell, você pode carregar o `.env` para a sessão atual e iniciar o backend:
+
 ```powershell
+Get-Content .\.env | ForEach-Object {
+  if ($_ -and -not $_.StartsWith('#')) {
+    $name, $value = $_.Split('=', 2)
+    Set-Item -Path "Env:$name" -Value $value
+  }
+}
+
+$env:APP_PORT = "8081"
+
 cd backend
 mvn spring-boot:run
 ```
 
-URL padrão:
+URL esperada nesse modo:
 
 - Backend: `http://localhost:8081`
+- API: `http://localhost:8081/api`
 
 ### 3. Frontend
 
