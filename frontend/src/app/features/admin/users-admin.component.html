@@ -40,12 +40,24 @@
         <div class="form-grid">
           <div>
             <label class="form-label" for="fullName">Nome</label>
-            <input id="fullName" class="form-control" type="text" formControlName="fullName">
+            <input
+              id="fullName"
+              class="form-control"
+              [class.is-invalid]="fieldInvalid('fullName')"
+              type="text"
+              formControlName="fullName">
+            <small *ngIf="fieldInvalid('fullName')" class="field-error">{{ fieldError('fullName') }}</small>
           </div>
 
           <div>
             <label class="form-label" for="email">Email</label>
-            <input id="email" class="form-control" type="email" formControlName="email">
+            <input
+              id="email"
+              class="form-control"
+              [class.is-invalid]="fieldInvalid('email')"
+              type="email"
+              formControlName="email">
+            <small *ngIf="fieldInvalid('email')" class="field-error">{{ fieldError('email') }}</small>
           </div>
         </div>
 
@@ -61,8 +73,15 @@
 
           <div>
             <label class="form-label" for="password">{{ passwordLabel }}</label>
-            <input id="password" class="form-control" type="password" formControlName="password">
+            <input
+              id="password"
+              class="form-control"
+              [class.is-invalid]="fieldInvalid('password')"
+              type="password"
+              autocomplete="new-password"
+              formControlName="password">
             <small class="field-hint">{{ passwordHint }}</small>
+            <small *ngIf="fieldInvalid('password')" class="field-error">{{ fieldError('password') }}</small>
           </div>
         </div>
 

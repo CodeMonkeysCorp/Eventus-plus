@@ -188,6 +188,11 @@ export class CustomDateTimeFieldComponent implements ControlValueAccessor, OnIni
     this.commit(new Date());
   }
 
+  confirmSelection(): void {
+    this.isOpen = false;
+    this.markTouched();
+  }
+
   trackByDay(_index: number, day: CalendarDay): string {
     return formatCalendarDayKey(day.date);
   }

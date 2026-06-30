@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { EventPayload, EventResponse, EventStatus } from '../../core/models';
@@ -34,10 +34,12 @@ export class AdminEventsComponent implements OnInit {
 
   loading = true;
   submitting = false;
+  removing = false;
   editingEventId: number | null = null;
   errorMessage = '';
   successMessage = '';
   events: EventResponse[] = [];
+  pendingRemovalEvent: EventResponse | null = null;
 
   readonly statusOptions: EventStatus[] = ['DRAFT', 'PUBLISHED', 'CLOSED'];
   readonly statusSelectOptions: CustomSelectOption[] = this.statusOptions.map((status) => ({
@@ -111,24 +113,45 @@ export class AdminEventsComponent implements OnInit {
   }
 
   remove(event: EventResponse): void {
-    if (!confirm(`Deseja remover o evento "${event.title}"?`)) {
+    this.pendingRemovalEvent = event;
+    this.errorMessage = '';
+    this.successMessage = '';
+  }
+
+  closeRemoveModal(): void {
+    if (this.removing) {
       return;
     }
 
+    this.pendingRemovalEvent = null;
+  }
+
+  confirmRemove(): void {
+    if (!this.pendingRemovalEvent) {
+      return;
+    }
+
+    const event = this.pendingRemovalEvent;
     this.errorMessage = '';
     this.successMessage = '';
-    this.eventsService.delete(event.id).subscribe({
-      next: () => {
-        this.successMessage = 'Evento removido com sucesso.';
-        if (this.editingEventId === event.id) {
-          this.resetForm();
+    this.removing = true;
+
+    this.eventsService.delete(event.id)
+      .pipe(finalize(() => (this.removing = false)))
+      .subscribe({
+        next: () => {
+          this.pendingRemovalEvent = null;
+          this.successMessage = 'Evento removido com sucesso.';
+          if (this.editingEventId === event.id) {
+            this.resetForm();
+          }
+          this.loadEvents();
+        },
+        error: (error: unknown) => {
+          this.pendingRemovalEvent = null;
+          this.errorMessage = this.apiErrorService.toMessage(error, 'Não foi possível remover o evento.');
         }
-        this.loadEvents();
-      },
-      error: (error: unknown) => {
-        this.errorMessage = this.apiErrorService.toMessage(error, 'Não foi possível remover o evento.');
-      }
-    });
+      });
   }
 
   formatDateTime(value: string): string {
@@ -145,6 +168,11 @@ export class AdminEventsComponent implements OnInit {
 
   trackByEventId(_index: number, event: EventResponse): number {
     return event.id;
+  }
+
+  @HostListener('document:keydown.escape')
+  handleEscape(): void {
+    this.closeRemoveModal();
   }
 
   private loadEvents(): void {

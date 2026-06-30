@@ -38,7 +38,7 @@
 
       <div class="calendar-footer">
         <button type="button" class="footer-action" (click)="clear()">Limpar</button>
-        <button type="button" class="footer-action is-primary" (click)="pickToday()">Hoje</button>
+        <button type="button" class="footer-action" (click)="pickToday()">Hoje</button>
       </div>
     </section>
 
@@ -63,6 +63,10 @@
           [placeholder]="'Minuto'"
           (ngModelChange)="selectMinute($event)">
         </app-custom-select>
+      </div>
+
+      <div class="time-actions">
+        <button type="button" class="footer-action is-primary" (click)="confirmSelection()">Confirmar</button>
       </div>
     </section>
   </div>

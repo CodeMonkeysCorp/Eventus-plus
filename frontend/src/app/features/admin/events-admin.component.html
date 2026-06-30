@@ -122,4 +122,29 @@
       </div>
     </section>
   </div>
+
+  <div *ngIf="pendingRemovalEvent" class="confirm-overlay" (click)="closeRemoveModal()">
+    <section
+      class="card-panel confirm-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="remove-event-title"
+      (click)="$event.stopPropagation()">
+      <p class="confirm-kicker">Remover evento</p>
+      <h3 id="remove-event-title" class="confirm-title">Excluir este evento?</h3>
+      <p class="confirm-copy">
+        Deseja remover o evento <strong>"{{ pendingRemovalEvent.title }}"</strong>?
+      </p>
+      <p class="confirm-copy muted-line">Essa ação não pode ser desfeita.</p>
+
+      <div class="confirm-actions">
+        <button type="button" class="btn btn-outline-secondary" [disabled]="removing" (click)="closeRemoveModal()">
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-outline-danger" [disabled]="removing" (click)="confirmRemove()">
+          {{ removing ? 'Removendo...' : 'Remover evento' }}
+        </button>
+      </div>
+    </section>
+  </div>
 </section>

@@ -31,6 +31,23 @@
   color: var(--muted);
 }
 
+.field-hint,
+.field-error {
+  font-size: 0.84rem;
+}
+
+.field-error {
+  display: block;
+  margin-top: 0.4rem;
+  color: #9f2f29;
+  font-weight: 700;
+}
+
+.is-invalid {
+  border-color: rgba(194, 72, 65, 0.34);
+  background: rgba(194, 72, 65, 0.04);
+}
+
 .list-heading {
   align-items: flex-end;
 }

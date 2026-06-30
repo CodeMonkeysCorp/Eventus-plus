@@ -10,6 +10,8 @@ import { CustomSelectComponent, CustomSelectOption } from '../../shared/ui/custo
 import { formatDateTime } from '../../shared/utils/date.utils';
 import { roleLabel } from '../../shared/utils/labels.utils';
 
+type UserField = 'fullName' | 'email' | 'password';
+
 @Component({
   selector: 'app-admin-users',
   standalone: true,
@@ -37,6 +39,7 @@ export class AdminUsersComponent implements OnInit {
   query = '';
   errorMessage = '';
   successMessage = '';
+  submitAttempted = false;
   users: UserResponse[] = [];
 
   readonly roleOptions: UserRole[] = ['PARTICIPANT', 'OPERATOR', 'ADMIN'];
@@ -86,6 +89,7 @@ export class AdminUsersComponent implements OnInit {
   submit(): void {
     this.errorMessage = '';
     this.successMessage = '';
+    this.submitAttempted = true;
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -132,6 +136,7 @@ export class AdminUsersComponent implements OnInit {
     this.editingUserId = user.id;
     this.successMessage = '';
     this.errorMessage = '';
+    this.submitAttempted = false;
     this.updatePasswordValidators();
     this.form.reset({
       fullName: user.fullName,
@@ -192,6 +197,58 @@ export class AdminUsersComponent implements OnInit {
     return formatDateTime(value);
   }
 
+  fieldInvalid(field: UserField): boolean {
+    const control = this.form.controls[field];
+    return control.invalid && (control.touched || this.submitAttempted);
+  }
+
+  fieldError(field: UserField): string {
+    const control = this.form.controls[field];
+    if (!this.fieldInvalid(field)) {
+      return '';
+    }
+
+    if (field === 'fullName') {
+      if (control.hasError('required')) {
+        return 'Informe o nome.';
+      }
+
+      if (control.hasError('maxlength')) {
+        return 'Use no máximo 120 caracteres.';
+      }
+    }
+
+    if (field === 'email') {
+      if (control.hasError('required')) {
+        return 'Informe o email.';
+      }
+
+      if (control.hasError('email')) {
+        return 'Digite um email válido.';
+      }
+
+      if (control.hasError('maxlength')) {
+        return 'Use no máximo 160 caracteres.';
+      }
+    }
+
+    if (field === 'password') {
+      if (control.hasError('required')) {
+        return 'Informe uma senha.';
+      }
+
+      if (control.hasError('minlength')) {
+        return 'Use no mínimo 8 caracteres.';
+      }
+
+      if (control.hasError('maxlength')) {
+        return 'Use no máximo 72 caracteres.';
+      }
+    }
+
+    return 'Revise este campo.';
+  }
+
   trackByUserId(_index: number, user: UserResponse): number {
     return user.id;
   }
@@ -214,6 +271,7 @@ export class AdminUsersComponent implements OnInit {
 
   private resetForm(): void {
     this.editingUserId = null;
+    this.submitAttempted = false;
     this.form.reset({
       fullName: '',
       email: '',
